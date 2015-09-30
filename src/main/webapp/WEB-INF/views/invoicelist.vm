@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>通话记录搜索</title>
+    <link type="text/css" rel="stylesheet" href="http://qunarzz.com/fuwu_bone/prd/styles/release/list_v5.css"/>
+</head>
+<body>
+
+<div class="wrapperbox">
+    <!-- {条件搜索 -->
+    <div class="m-search g-clear">
+        <form id="J_Form">
+            <input type="hidden" id="otaDomain" name="otaDomain" value="${otaDomain}"/>
+            <div class="rows">
+                <div class="col">
+                    <span class="label">开始日期</span>
+
+                    <div class="label-info">
+                        <div class="qcbox start-date">
+                            <input type="text" value="$!{orderStartDate}" name="orderStartDate" class="cinput" autocomplete="off"
+                                   maxlength="30"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <span class="label">结束日期</span>
+
+                    <div class="label-info">
+                        <div class="qcbox stop-date">
+                            <input type="text" value="$!{orderEndDate}" name="orderEndDate" class="cinput" autocomplete="off"
+                                   maxlength="30"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <span class="label">用户电话号</span>
+                    <div class="label-info">
+                        <span class="g-ipt-text">
+                            <input name="userPhoneNum" type="text"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rows">
+                <div class="col">
+                    <span class="label">文本关键词</span>
+
+                    <div class="label-info">
+                        <span class="g-ipt-text">
+                            <input name="keyWord" type="text"/>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <span class="label">代理商域名</span>
+                    <div class="label-info">
+                        <span class="g-ipt-text">
+                            <input name="clientDomain" type="text"/>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <span class="label">订单号</span>
+                    <div class="label-info">
+                        <span class="g-ipt-text">
+                            <input name="orderNo" type="text"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rows">
+                <div class="col">
+
+                    <div data-element="checkboxGroup" class="">
+                        <div class="label">模糊查询</div>
+                        <label>
+                            <input type="checkbox" name="fuzzyQuery" data-element="checkbox" value="true" checked="checked"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rows">
+                <button class="g-btn"><span>查询</span></button>
+            </div>
+        </form>
+    </div>
+    <!-- 条件搜索} -->
+    <!-- {搜索内容 -->
+    <div class="m-searchlist">
+        <div id="J_Grid"></div>
+    </div>
+    <!-- 搜索内容} -->
+</div>
+
+
+<script src="http://qunarzz.com/jquery/prd/jquery-1.8.3.js"></script>
+<script src="http://qunarzz.com/fuwu_bone/prd/scripts/release/bone_v5.js"></script>
+<script src="http://qunarzz.com/fuwu_bone/prd/scripts/release/list_v5.js"></script>
+<script>
+    // 配置
+    var FORM_ID = 'J_Form'; // 表单ID
+    var EXPORT_ID = 'J_Export'; // 导出按钮的ID
+    var LIST_URL = '/hackathon/sei/call/page'; // 列表数据url
+    var EXPORT_URL = '/iorderb2c/invoice/exportExcel'; // 导出url
+    var REFRESH_LIST_WHEN_CLOSE = true; // 关闭新打开的tab,是否刷新当前列表
+    //var EDIT_URL = './form-with-submit.html?id=';
+    // 配置列表
+    var PageConfig = {
+        limit: 100,
+        url : LIST_URL,
+        isValid: true,
+        cols: [
+            {
+                title: '代理商名称',
+                dataIndex: 'otaName',
+                widthLen: 50
+            },
+            {
+                title: '代理商域名',
+                dataIndex: 'otaDomain',
+                widthLen: 40
+            },
+            {
+                title: '通话创建时间',
+                dataIndex: 'createTime',
+                widthLen: 38
+            },
+            {
+                title:'订单号',
+                dataIndex: 'orderNo',
+                widthLen: 45,
+            },
+            {
+                title:'文本关键词',
+                dataIndex: 'audioKeyWord',
+                widthLen: 62,
+            },
+            {
+                title: '外呼音频文本',
+                dataIndex: 'audioText',
+                widthLen: 183,
+            },
+            {
+                title: '下载链接',
+                dataIndex: 'fileLocation',
+                widthLen: 20,
+            }
+        ]
+    };
+
+    var formDom = $('#'+FORM_ID).get(0);
+
+    Bone.DatePicker.datePickerRange(formDom.startDepartureDate, formDom.endDepartureDate, {});
+
+    /**
+     * 根据URL,并且打开新的Tab页面
+     */
+    function openTab(dom){
+        var topFrame,
+                tabs,
+                $dom = $(dom),
+                url = $dom.data('url'),
+                id = $dom.data('id');
+
+        try{
+            topFrame = top;
+            tabs = topFrame.tabs;
+            if(REFRESH_LIST_WHEN_CLOSE){
+                url += '&fromSID=' + top.tabs.getCurTab().sid
+            }
+            tabs.open({
+                url: url,
+                sid: 'commonList_' + id,
+                title: '配送[' + id + ']'
+            })
+        }catch(e){
+            window.open(url)
+        }
+    }
+
+    $('#'+ EXPORT_ID).click(function(){
+        window.open(EXPORT_URL + '?' + $(formDom).serialize(), '_blank');
+    });
+
+
+    function a(){
+
+        var div1 = document.getElementById('test');
+        div1.style.display='block';
+    }
+    function b(){
+        var div1 = document.getElementById('test');
+        div1.style.display='none';
+    }
+
+</script>
+
+
+</body>
+</html>

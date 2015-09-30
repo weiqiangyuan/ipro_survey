@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- slf4j日志配置文件 -->
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+
+    <contextName>${HOSTNAME}</contextName>
+
+    <!-- 设置日志输出根目录 -->
+    <property name="log.dir" value="${catalina.base}/logs"/>
+
+    <property name="encoding" value="UTF-8"/>
+    <property name="normal-pattern" value="%d{yyyy-MM-dd.HH:mm:ss} %-5level [%thread-%d{HH:mm}] %logger.%M:%L  %msg%n"/>
+    <property name="plain-pattern" value="%d{yyyy-MM-dd.HH:mm:ss} %msg%n"/>
+    <property name="stdout-pattern" value="%.-5level%d{yyyy-MM-dd HH:mm:ss} %-40logger{0} |----- %msg%n"/>
+
+    <!-- log file default -->
+    <appender name="survey"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>false</prudent>
+        <Append>true</Append>
+        <encoder>
+            <pattern>${normal-pattern}</pattern>
+            <charset>${encoding}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/survey.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- log file error -->
+    <appender name="survey_error"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <prudent>false</prudent>
+        <Append>true</Append>
+        <encoder>
+            <pattern>${normal-pattern}</pattern>
+            <charset>${encoding}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/error.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${stdout-pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="survey"/>
+        <appender-ref ref="survey_error"/>
+    </root>
+
+</configuration>
