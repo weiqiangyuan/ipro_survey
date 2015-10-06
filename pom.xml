@@ -19,6 +19,7 @@
         <com.fasterxml.jackson.version>2.3.0</com.fasterxml.jackson.version>
         <org.slf4j.version>1.7.5</org.slf4j.version>
         <logback.version>1.0.13</logback.version>
+        <druid-version>1.0.9</druid-version>
 
     </properties>
 
@@ -150,6 +151,13 @@
                 <artifactId>joda-time</artifactId>
                 <version>2.7</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid-version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
@@ -256,122 +264,45 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
     </dependencies>
 
 
     <build>
         <finalName>survey</finalName>
         <plugins>
-
             <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.10</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <stopKey>foo</stopKey>
-                    <stopPort>9999</stopPort>
-                    <contextPath>/</contextPath>
-                    <connectors>
-                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8080</port>
-                        </connector>
-                    </connectors>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <port>8081</port>
+                    <path>/</path>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <id>betaa</id>
+            <id>beta</id>
             <properties>
-                <env>betaa</env>
+                <env>beta</env>
             </properties>
             <build>
                 <resources>
                     <resource>
-                        <directory>src/main/profiles/betaa</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>betab</id>
-            <properties>
-                <env>betab</env>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/profiles/betab</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>betac</id>
-            <properties>
-                <env>betac</env>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/profiles/betac</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>betad</id>
-            <properties>
-                <env>betad</env>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/profiles/betad</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>betabox</id>
-            <properties>
-                <env>betabox</env>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/profiles/betabox</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <env>dev</env>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/profiles/dev</directory>
+                        <directory>src/main/profiles/beta</directory>
                     </resource>
                     <resource>
                         <directory>src/main/resources</directory>

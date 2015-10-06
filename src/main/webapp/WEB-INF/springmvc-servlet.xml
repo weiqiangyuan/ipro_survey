@@ -6,15 +6,15 @@
   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
        default-autowire="byName">
 
-    <bean id="generalExpResolver" class="com.qunar.fuwu.exception.GeneralExceptionResolver" />
+    <bean id="generalExpResolver" class="com.ipro.survey.exception.GeneralExceptionResolver" />
 
-    <context:component-scan base-package="com.qunar.fuwu.web.controller"/>
+    <context:component-scan base-package="com.ipro.survey.web.controller"/>
 
 
     <mvc:annotation-driven/>
 
     <mvc:interceptors>
-        <bean class="com.qunar.fuwu.web.interceptors.RequestInterceptor"/>
+        <bean class="com.ipro.survey.web.interceptors.RequestInterceptor"/>
     </mvc:interceptors>
 
     <!--配置velocity-->

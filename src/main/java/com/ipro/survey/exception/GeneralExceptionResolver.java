@@ -13,8 +13,8 @@ public class GeneralExceptionResolver implements HandlerExceptionResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(GeneralExceptionResolver.class);
 
-    @Override
-    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
+            Exception ex) {
         logger.error("Uncatched Exception is {} ", Throwables.getRootCause(ex).getMessage(), ex);
         return new ModelAndView("friendly-error");
     }

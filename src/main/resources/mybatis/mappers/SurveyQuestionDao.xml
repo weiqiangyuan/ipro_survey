@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipro.survey.persistence.dao.SurveyQuestionDao">
+
+    <sql id="columns">
+      id,
+      question_type as questionType,
+      question_title as questionTitle,
+      question_content as questionContent,
+      create_time as createTime,
+      update_time as updateTime
+    </sql>
+
+    <insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.ipro.survey.persistence.model.SurveyQuestion">
+        INSERT INTO tb_survey_question(
+        question_type,
+        question_title,
+        question_content,
+        create_time
+        ) VALUES
+        (
+        #{questionType},
+        #{questionTitle},
+        #{questionContent},
+        #{createTime}
+        )
+    </insert>
+
+    <update id="updateQuestion" parameterType="com.ipro.survey.persistence.model.SurveyQuestion">
+        UPDATE
+        tb_survey_question
+        <set>
+            <if test="questionType != null">
+                question_type = #{questionType},
+            </if>
+            <if test="questionTitle != null">
+                question_title = #{questionTitle},
+            </if>
+            <if test="questionContent != null">
+                question_content = #{questionContent},
+            </if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+
+    <select id="selectByQuestionIds" resultType="com.ipro.survey.persistence.model.SurveyQuestion">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_survey_question
+        WHERE id in
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>
