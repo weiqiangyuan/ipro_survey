@@ -8,7 +8,16 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class SurveyPaper {
 
+    private Integer id;
     private String paperName;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getPaperName() {
         return paperName;

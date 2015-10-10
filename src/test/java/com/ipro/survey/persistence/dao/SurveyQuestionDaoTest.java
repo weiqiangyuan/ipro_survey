@@ -2,7 +2,7 @@ package com.ipro.survey.persistence.dao;
 
 import com.ipro.survey.base.BaseServiceTest;
 import com.ipro.survey.persistence.model.SurveyQuestion;
-import com.ipro.survey.service.SurveyQuestionService;
+import com.ipro.survey.service.SurveyPaperService;
 import org.junit.Test;
 
 import javax.annotation.Resource;
@@ -20,7 +20,7 @@ public class SurveyQuestionDaoTest extends BaseServiceTest {
     private SurveyQuestionDao surveyQuestionDao;
 
     @Resource
-    private SurveyQuestionService surveyQuestionService;
+    private SurveyPaperService surveyQuestionService;
 
     @Test
     public void should_insert_question() {

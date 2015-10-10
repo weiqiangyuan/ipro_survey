@@ -1,5 +1,7 @@
 package com.ipro.survey.web.vo;
 
+import com.google.common.base.Function;
+import com.ipro.survey.persistence.model.SurveyQuestion;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -45,6 +47,7 @@ public class Question {
     public void setOption(List<Option> option) {
         this.option = option;
     }
+
 
     @Override
     public String toString() {
