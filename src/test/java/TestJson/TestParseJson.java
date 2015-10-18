@@ -1,11 +1,14 @@
 package TestJson;
 
 import com.ipro.survey.utils.JsonUtil;
-import com.ipro.survey.web.vo.SurveyVO;
+import com.ipro.survey.web.vo.PaperVO;
+import com.ipro.survey.web.vo.Question;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Created by weiqiang.yuan on 2015/1/14 16:31.
@@ -29,19 +32,26 @@ public class TestParseJson {
 
     @Test
     public void test_input_param() {
-        String param = "{\n" + "  \"paperTitle\": \"问卷标题\",\n" + "  \"desc\": \"问卷描述\",\n" + "  \"questionList\": [\n"
-                + "    {\n" + "      \"title\": \"这个是第一题\",\n" + "      \"type\": 1,\n" + "      \"option\": [\n"
-                + "        {\n" + "          \"text\": \"选项A\",\n" + "          \"value\": \"4\"\n" + "        },\n"
-                + "        {\n" + "          \"text\": \"选项B\",\n" + "          \"value\": \"3\"\n" + "        },\n"
-                + "        {\n" + "          \"text\": \"选项C\",\n" + "          \"value\": \"2\"\n" + "        },\n"
-                + "        {\n" + "          \"text\": \"选项D\",\n" + "          \"value\": \"1\"\n" + "        }\n"
-                + "      ]\n" + "    },\n" + "    {\n" + "      \"title\": \"这个是第二题\",\n" + "      \"type\": 1,\n"
-                + "      \"option\": [\n" + "        {\n" + "          \"text\": \"选项A\",\n"
-                + "          \"value\": \"4\"\n" + "        },\n" + "        {\n" + "          \"text\": \"选项B\",\n"
-                + "          \"value\": \"3\"\n" + "        },\n" + "        {\n" + "          \"text\": \"选项C\",\n"
-                + "          \"value\": \"2\"\n" + "        },\n" + "        {\n" + "          \"text\": \"选项D\",\n"
-                + "          \"value\": \"1\"\n" + "        }\n" + "      ]\n" + "    }\n" + "  ]\n" + "}";
-        SurveyVO surveyVO = JsonUtil.parseJson(param, SurveyVO.class);
-        logger.info("===={}",surveyVO);
+//        String param = "{\n" + "  \"paperTitle\": \"问卷标题\",\n" + "  \"desc\": \"问卷描述\",\n" + "  \"questionList\": [\n"
+//                + "    {\n" + "      \"title\": \"这个是第一题\",\n" + "      \"type\": 1,\n" + "      \"option\": [\n"
+//                + "        {\n" + "          \"text\": \"选项A\",\n" + "          \"value\": \"4\"\n" + "        },\n"
+//                + "        {\n" + "          \"text\": \"选项B\",\n" + "          \"value\": \"3\"\n" + "        },\n"
+//                + "        {\n" + "          \"text\": \"选项C\",\n" + "          \"value\": \"2\"\n" + "        },\n"
+//                + "        {\n" + "          \"text\": \"选项D\",\n" + "          \"value\": \"1\"\n" + "        }\n"
+//                + "      ]\n" + "    },\n" + "    {\n" + "      \"title\": \"这个是第二题\",\n" + "      \"type\": 1,\n"
+//                + "      \"option\": [\n" + "        {\n" + "          \"text\": \"选项A\",\n"
+//                + "          \"value\": \"4\"\n" + "        },\n" + "        {\n" + "          \"text\": \"选项B\",\n"
+//                + "          \"value\": \"3\"\n" + "        },\n" + "        {\n" + "          \"text\": \"选项C\",\n"
+//                + "          \"value\": \"2\"\n" + "        },\n" + "        {\n" + "          \"text\": \"选项D\",\n"
+//                + "          \"value\": \"1\"\n" + "        }\n" + "      ]\n" + "    }\n" + "  ]\n" + "}";
+//        PaperVO surveyVO = JsonUtil.parseJson(param, PaperVO.class);
+//        logger.info("===={}", surveyVO);
+//        logger.info("===={}", param);
+
+        String test = "[{\"text\":\"选项A\",\"value\":\"4\"},{\"text\":\"选项B\",\"value\":\"3\"},{\"text\":\"选项C\",\"value\":\"2\"},{\"text\":\"选项D\",\"value\":\"1\"}]";
+        List list = JsonUtil.parseJson(test, List.class);
+        Question question = new Question();
+        question.setOption(list);
+        logger.info("=={}",list);
     }
 }

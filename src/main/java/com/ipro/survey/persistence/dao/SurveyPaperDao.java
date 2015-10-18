@@ -21,6 +21,13 @@ public interface SurveyPaperDao {
 
     /**
      *
+     * @param id
+     * @return
+     */
+    SurveyPaper selectByPaperId(@Param("id") Integer id);
+
+    /**
+     *
      * @param paperName
      * @return
      */

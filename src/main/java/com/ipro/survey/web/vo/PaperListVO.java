@@ -1,19 +1,30 @@
 package com.ipro.survey.web.vo;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.util.List;
-
 /**
+ * 调查问卷VO
  * Created by weiqiang.yuan on 15/10/4 16:36.
  */
-public class SurveyVO {
+public class PaperListVO {
+    private Integer paperId;
+
     private String paperTitle;
     private String desc;
-    private String createTime;
-    private Integer paperId;
-    private List<Question> questionList;
+    private Date createTime;
+    private Date updateTime;
+
+    public Integer getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
+    }
 
     public String getPaperTitle() {
         return paperTitle;
@@ -31,28 +42,20 @@ public class SurveyVO {
         this.desc = desc;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Integer getPaperId() {
-        return paperId;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setPaperId(Integer paperId) {
-        this.paperId = paperId;
-    }
-
-    public List<Question> getQuestionList() {
-        return questionList;
-    }
-
-    public void setQuestionList(List<Question> questionList) {
-        this.questionList = questionList;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
