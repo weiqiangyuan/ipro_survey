@@ -8,9 +8,11 @@ import com.ipro.survey.persistence.model.SurveyPaper;
 import com.ipro.survey.persistence.model.SurveyQuestion;
 import com.ipro.survey.service.transform.TransformModel;
 import com.ipro.survey.utils.StringBasicUtils;
+import com.ipro.survey.web.vo.Option;
 import com.ipro.survey.web.vo.PaperListVO;
 import com.ipro.survey.web.vo.Question;
 import com.ipro.survey.web.vo.PaperVO;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,7 @@ import java.util.List;
  * Created by weiqiang.yuan on 15/10/5 13:05.
  */
 @Service
-public class SurveyPaperService {
+public class SurveyPaperManageService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -38,11 +40,13 @@ public class SurveyPaperService {
     @Transactional
     public void createSurveyPaper(PaperVO surveyVO) {
         List<Question> questionList = surveyVO.getQuestionList();
+
         StringBuilder questionIds = new StringBuilder();
 
         Integer questionSize = questionList.size();
         for (int i = 0; i < questionSize; i++) {
             Question question = questionList.get(i);
+            initAnswerLocation(question.getOption());
             SurveyQuestion apply = TransformModel.TO_SURVEY_QUESTION.apply(question);
             surveyQuestionDao.insertQuestion(apply);
             questionIds.append(getQuestionId(apply));
@@ -81,7 +85,7 @@ public class SurveyPaperService {
         PaperVO paperVO = new PaperVO();
 
         paperVO.setPaperId(paperId);
-        // paperVO.setDesc(surveyPaper.getDesc());
+        paperVO.setDesc(surveyPaper.getPaperDesc());
         paperVO.setPaperTitle(surveyPaper.getPaperName());
         paperVO.setCreateTime(surveyPaper.getCreateTime());
 
@@ -93,5 +97,14 @@ public class SurveyPaperService {
         List<SurveyPaper> surveyPapers = surveyPaperDao.selectByPaperName(paperName);
         return Lists.transform(surveyPapers, TransformModel.TO_PAPERLIST_VO);
 
+    }
+
+    private void initAnswerLocation(List<Option> options) {
+        if (CollectionUtils.isEmpty(options))
+            return;
+        int size = options.size();
+        for (int i = 0; i < size; i++) {
+            options.get(i).setLocation(i);
+        }
     }
 }

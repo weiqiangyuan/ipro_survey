@@ -4,26 +4,26 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * Created by weiqiang.yuan on 15/10/4 17:50.
+ * Created by weiqiang.yuan on 15/10/25 16:55.
  */
-public class Option {
-    private String text;
-    private String value;
+public class Answer {
+    private Integer questionId;
+    private Integer value;
     private Integer location;
 
-    public String getText() {
-        return text;
+    public Integer getQuestionId() {
+        return questionId;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
@@ -39,4 +39,5 @@ public class Option {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }

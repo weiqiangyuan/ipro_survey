@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipro.survey.persistence.dao.SurveyResultDao">
+
+    <sql id="columns">
+      id,
+      task_no as questionType,
+      paper_id as paperId,
+      question_id as questionId,
+      result_option as resultOption,
+      result_value as resultValue,
+      create_time as createTime
+    </sql>
+
+    <insert id="insertResult" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.ipro.survey.persistence.model.SurveyResult">
+        INSERT INTO tb_task_survey_result(
+        task_no,
+        paper_id,
+        question_id,
+        result_option,
+        result_value,
+        create_time
+        ) VALUES
+        (
+        #{taskNo},
+        #{paperId},
+        #{questionId},
+        #{resultOption},
+        #{resultValue},
+        #{createTime}
+        )
+    </insert>
+
+</mapper>

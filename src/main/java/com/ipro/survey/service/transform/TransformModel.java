@@ -1,17 +1,13 @@
 package com.ipro.survey.service.transform;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
 import com.ipro.survey.persistence.model.SurveyPaper;
 import com.ipro.survey.persistence.model.SurveyQuestion;
 import com.ipro.survey.utils.JsonUtil;
-import com.ipro.survey.web.vo.Option;
 import com.ipro.survey.web.vo.PaperListVO;
-import com.ipro.survey.web.vo.PaperVO;
 import com.ipro.survey.web.vo.Question;
 
-import java.awt.print.Paper;
 import java.util.List;
 
 /**
@@ -50,6 +46,7 @@ public class TransformModel {
             PaperListVO paperListVO = new PaperListVO();
             paperListVO.setPaperTitle(surveyPaper.getPaperName());
             paperListVO.setPaperId(surveyPaper.getId());
+            paperListVO.setDesc(surveyPaper.getPaperDesc());
             paperListVO.setCreateTime(surveyPaper.getCreateTime());
             paperListVO.setUpdateTime(surveyPaper.getUpdateTime());
             return paperListVO;

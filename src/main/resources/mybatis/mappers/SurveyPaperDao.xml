@@ -68,7 +68,9 @@
         SELECT
         <include refid="columns"/>
         FROM tb_survey_paper
-        WHERE tb_survey_paper LIKE '%'#{paperName}'%'
+        <if test="paperName != null">
+            WHERE paper_name LIKE #{paperName}"%"
+        </if>
     </select>
 
 </mapper>
