@@ -54,6 +54,7 @@ public class UserPaperController {
         try {
             logger.info("paperSubmitParam {}", paperSubmitParam);
             Map<String, Object> ret = userSurveyPaperService.submitSurvey(paperSubmitParam);
+            logger.info("提交实际返回结果{}", ret);
             return JsonResult.successJsonResult(ret);
         } catch (PaperManageException e) {
             logger.error("提交问卷发生异常", e);
