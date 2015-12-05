@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipro.survey.persistence.dao.UserDao">
+
+    <sql id="columns">
+      id,
+      account,
+      nick_name as nickName,
+      status,
+      type,
+    </sql>
+
+    <select id="selectUserByAccount" resultType="com.ipro.survey.persistence.model.User">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_user
+        WHERE account = #{account}
+    </select>
+
+    <insert id="insertUser" parameterType="com.ipro.survey.persistence.model.User">
+        INSERT INTO tb_user(
+        account,
+        nick_name,
+        status,
+        type
+        ) VALUES
+        (
+        #{account},
+        #{nickName},
+        #{status},
+        #{type}
+        )
+    </insert>
+
+</mapper>
