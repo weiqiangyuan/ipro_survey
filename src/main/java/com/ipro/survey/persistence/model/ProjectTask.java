@@ -9,14 +9,13 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by weiqiang.yuan on 15/10/25 11:22.
  */
-@Repository
 public class ProjectTask {
     private Integer id;
     private String taskNo;
+    private String projectNo;
+    private String actionNo;
     private String status;
     private String userAccount;
-    private Integer projectId;
-    private String completeSurvey;
     private Date createTime;
     private Date updateTime;
 
@@ -52,20 +51,20 @@ public class ProjectTask {
         this.userAccount = userAccount;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public String getProjectNo() {
+        return projectNo;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
-    public String getCompleteSurvey() {
-        return completeSurvey;
+    public String getActionNo() {
+        return actionNo;
     }
 
-    public void setCompleteSurvey(String completeSurvey) {
-        this.completeSurvey = completeSurvey;
+    public void setActionNo(String actionNo) {
+        this.actionNo = actionNo;
     }
 
     public Date getCreateTime() {

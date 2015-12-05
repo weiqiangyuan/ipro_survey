@@ -7,5 +7,7 @@ import com.google.common.base.Splitter;
  */
 public class StringBasicUtils {
     public static final Splitter commaSplitter = Splitter.on(",").omitEmptyStrings().trimResults();
+    public static final Splitter lineSplitter = Splitter.on("|").omitEmptyStrings().trimResults();
+    public static final Splitter colonSplitter = Splitter.on(":").omitEmptyStrings().trimResults();
 
 }

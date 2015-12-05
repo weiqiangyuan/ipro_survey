@@ -4,19 +4,20 @@
 
     <sql id="columns">
       id,
+      project_no as projectNo,
       project_name as projectName,
       project_desc as projectDesc,
-      survey_count as survey_count,
-      paper_ids as paperIds,
+      schedule as schedule,
+      schedule_time_level as scheduleTimeLevel,
       create_time as createTime,
       update_time as updateTime
     </sql>
 
-    <select id="selectByProjectId" resultType="com.ipro.survey.persistence.model.HealthProject">
+    <select id="selectByProjectNo" resultType="com.ipro.survey.persistence.model.HealthProject">
         SELECT
         <include refid="columns"/>
         FROM tb_health_project
-        WHERE id = #{id}
+        WHERE project_no = #{projectNo}
     </select>
 
 </mapper>

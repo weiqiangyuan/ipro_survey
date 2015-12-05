@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ipro.survey.persistence.model.HealthProject;
 
+import java.util.List;
+
 /**
  * Created by weiqiang.yuan on 15/10/25 11:19.
  */
@@ -13,5 +15,7 @@ import com.ipro.survey.persistence.model.HealthProject;
 public interface ProjectTaskDao {
 
     ProjectTask selectByTaskNo(@Param("taskNo") String taskNo);
+
+    int insertTask(List<ProjectTask> projectTasks);
 
 }

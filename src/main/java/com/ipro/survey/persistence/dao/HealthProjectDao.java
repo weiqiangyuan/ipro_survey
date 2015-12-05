@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HealthProjectDao {
 
-    HealthProject selectByProjectId(@Param("id") Integer id);
+    HealthProject selectByProjectNo(@Param("projectNo") String projectNo);
+
+//    int insertProject(@Param("id") Integer id);
 }

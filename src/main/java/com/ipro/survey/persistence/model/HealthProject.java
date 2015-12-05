@@ -9,13 +9,13 @@ import java.util.Date;
 /**
  * Created by weiqiang.yuan on 15/10/25 11:22.
  */
-@Repository
 public class HealthProject {
     private Integer id;
+    private String projectNo;
     private String projectName;
     private String projectDesc;
-    private String surveyCount;
-    private String paperIds;
+    private String schedule;
+    private Integer scheduleTimeLevel;
     private Date createTime;
     private Date updateTime;
 
@@ -25,6 +25,14 @@ public class HealthProject {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public String getProjectName() {
@@ -43,20 +51,20 @@ public class HealthProject {
         this.projectDesc = projectDesc;
     }
 
-    public String getSurveyCount() {
-        return surveyCount;
+    public String getSchedule() {
+        return schedule;
     }
 
-    public void setSurveyCount(String surveyCount) {
-        this.surveyCount = surveyCount;
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 
-    public String getPaperIds() {
-        return paperIds;
+    public Integer getScheduleTimeLevel() {
+        return scheduleTimeLevel;
     }
 
-    public void setPaperIds(String paperIds) {
-        this.paperIds = paperIds;
+    public void setScheduleTimeLevel(Integer scheduleTimeLevel) {
+        this.scheduleTimeLevel = scheduleTimeLevel;
     }
 
     public Date getCreateTime() {

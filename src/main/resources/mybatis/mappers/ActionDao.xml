@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ipro.survey.persistence.dao.ProjectTaskDao">
+<mapper namespace="com.ipro.survey.persistence.dao.ActionDao">
 
     <sql id="columns">
       id,
-      task_no as taskNo,
-      status as status,
-      user_account as userAccount,
-      project_no as projectNo,
       action_no as actionNo,
-      create_time as createTime,
-      update_time as updateTime
+      name,
+      desc,
+      type,
+      content
     </sql>
 
-    <select id="selectByTaskNo" resultType="com.ipro.survey.persistence.model.ProjectTask">
+    <select id="selectByActionNo" resultType="com.ipro.survey.persistence.model.Action">
         SELECT
         <include refid="columns"/>
-        FROM tb_project_task
-        WHERE task_no = #{taskNo}
+        FROM tb_action
+        WHERE action_no = #{actionNo}
     </select>
 
-    <select id="insertTask" parameterType="com.ipro.survey.persistence.model.ProjectTask">
+    <select id="insertAction" parameterType="com.ipro.survey.persistence.model.ProjectTask">
         INSERT INTO tb_project_task
         (
         task_no,
@@ -30,16 +28,14 @@
         action_no,
         create_time
         )
-        <foreach collection="list" item="item" index="index" separator=",">
-            (
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{taskNo},
             #{status},
             #{userAccount},
             #{projectNo},
             #{actionNo},
             #{createTime}
-            )
-        </foreach>
+        </trim>
     </select>
 
 </mapper>
