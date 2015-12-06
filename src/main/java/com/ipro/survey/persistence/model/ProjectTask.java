@@ -14,9 +14,10 @@ public class ProjectTask {
     private String taskNo;
     private String projectNo;
     private String actionNo;
-    private String status;
+    private Integer status;
     private String userAccount;
     private Date createTime;
+    private Date notifyTime;
     private Date updateTime;
 
     public Integer getId() {
@@ -35,11 +36,11 @@ public class ProjectTask {
         this.taskNo = taskNo;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -73,6 +74,14 @@ public class ProjectTask {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getNotifyTime() {
+        return notifyTime;
+    }
+
+    public void setNotifyTime(Date notifyTime) {
+        this.notifyTime = notifyTime;
     }
 
     public Date getUpdateTime() {

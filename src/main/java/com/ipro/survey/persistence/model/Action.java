@@ -12,6 +12,7 @@ public class Action {
     private String name;
     private String desc;
     private Integer type;
+    private Integer showStyle;
     private String content;
 
     public Integer getId() {
@@ -52,6 +53,14 @@ public class Action {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getShowStyle() {
+        return showStyle;
+    }
+
+    public void setShowStyle(Integer showStyle) {
+        this.showStyle = showStyle;
     }
 
     public String getContent() {
