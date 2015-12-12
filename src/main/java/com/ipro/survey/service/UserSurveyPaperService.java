@@ -37,7 +37,7 @@ public class UserSurveyPaperService {
 
     public UserPaperVO getUserPaperVOByPaperId(Integer paperId, String userAccount, String taskNo) {
         ProjectTask projectTask = projectTaskDao.selectByTaskNo(taskNo);
-        Integer projectId = projectTask.getProjectId();
+        String projectNo = projectTask.getProjectNo();
         PaperVO surveyPaper = surveyPaperManageService.getSurveyPaper(paperId);
 
         UserPaperVO userPaperVO = new UserPaperVO();
@@ -46,7 +46,7 @@ public class UserSurveyPaperService {
         userPaperVO.setPaperTitle(surveyPaper.getPaperTitle());
         userPaperVO.setPaperId(surveyPaper.getPaperId());
         userPaperVO.setUserAccount(userAccount);
-        userPaperVO.setProjectId(projectId);
+        userPaperVO.setProjectNo(projectNo);
         userPaperVO.setCreateTime(surveyPaper.getCreateTime());
         return userPaperVO;
     }

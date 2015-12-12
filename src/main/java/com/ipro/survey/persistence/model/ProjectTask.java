@@ -2,6 +2,7 @@ package com.ipro.survey.persistence.model;
 
 import java.util.Date;
 
+import com.ipro.survey.Enum.TaskStatus;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ public class ProjectTask {
     private String taskNo;
     private String projectNo;
     private String actionNo;
-    private Integer status;
+    private TaskStatus status;
     private String userAccount;
     private Date createTime;
     private Date notifyTime;
@@ -36,11 +37,11 @@ public class ProjectTask {
         this.taskNo = taskNo;
     }
 
-    public Integer getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 

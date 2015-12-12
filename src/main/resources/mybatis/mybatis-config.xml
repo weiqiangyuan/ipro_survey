@@ -5,10 +5,18 @@
 
 <configuration>
     <settings>
-        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="lazyLoadingEnabled" value="false"/>
         <setting name="cacheEnabled" value="false"/>
     </settings>
 
     <typeAliases>
     </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.ipro.survey.persistence.handler.CodeEnumTypeHandler"
+                     javaType="com.ipro.survey.Enum.TaskStatus"/>
+        <typeHandler handler="com.ipro.survey.persistence.handler.CodeEnumTypeHandler"
+                     javaType="com.ipro.survey.Enum.ScheduleTimeLevel"/>
+    </typeHandlers>
+
 </configuration>

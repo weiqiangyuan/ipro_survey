@@ -15,7 +15,7 @@ public class UserPaperVO {
     private String desc;
     private Date createTime;
     private Integer paperId;
-    private Integer projectId;
+    private String projectNo;
     private String userAccount;
     private List<Question> questionList;
 
@@ -59,12 +59,12 @@ public class UserPaperVO {
         this.questionList = questionList;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public String getProjectNo() {
+        return projectNo;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public String getUserAccount() {

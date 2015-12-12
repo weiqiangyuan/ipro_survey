@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ActionDao {
 
-    Action selectByActioNo(@Param("actionNo") String actionNo);
+    Action selectByActionNo(@Param("actionNo") String actionNo);
 
     int insertAction(Action action);
 

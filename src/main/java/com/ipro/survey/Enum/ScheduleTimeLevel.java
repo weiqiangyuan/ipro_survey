@@ -7,21 +7,21 @@ public enum ScheduleTimeLevel {
 
     YEAR(1, "年"), MONTH(2, "月"), DAY(3, "日"), HOUR(4, "小时"), MINUTE(5, "分钟"), SECOND(6, "秒");
 
-    public final int value;
+    public final int code;
     public final String name;
 
-    ScheduleTimeLevel(int value, String name) {
-        this.value = value;
+    ScheduleTimeLevel(int code, String name) {
+        this.code = code;
         this.name = name;
     }
 
-    public static ScheduleTimeLevel valueOf(int v) {
+    public static ScheduleTimeLevel codeOf(int v) {
         ScheduleTimeLevel[] arr$ = values();
         int len$ = arr$.length;
 
         for (int i$ = 0; i$ < len$; ++i$) {
             ScheduleTimeLevel s = arr$[i$];
-            if (v == s.value) {
+            if (v == s.code) {
                 return s;
             }
         }
@@ -29,8 +29,8 @@ public enum ScheduleTimeLevel {
         return null;
     }
 
-    public int getValue() {
-        return this.value;
+    public int getCode() {
+        return this.code;
     }
 
     public String getName() {

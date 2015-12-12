@@ -5,26 +5,23 @@ package com.ipro.survey.Enum;
  */
 public enum TaskStatus {
 
-    WAIT_SEND(1, "待推送"),
-    SEND(2, "已推送"),     SEND_FAIL(21, "推送失败"),
-    TODO(3, "待完成"),
-    DONE(4, "已完成");
+    WAIT_SEND(1, "待推送"), SEND(2, "已推送"), SEND_FAIL(21, "推送失败"), TODO(3, "待完成"), DONE(4, "已完成");
 
-    public final int value;
+    public final int code;
     public final String name;
 
-    TaskStatus(int value, String name) {
-        this.value = value;
+    TaskStatus(int code, String name) {
+        this.code = code;
         this.name = name;
     }
 
-    public static TaskStatus valueOf(int v) {
+    public static TaskStatus codeOf(int v) {
         TaskStatus[] arr$ = values();
         int len$ = arr$.length;
 
         for (int i$ = 0; i$ < len$; ++i$) {
             TaskStatus s = arr$[i$];
-            if (v == s.value) {
+            if (v == s.code) {
                 return s;
             }
         }
@@ -32,8 +29,8 @@ public enum TaskStatus {
         return null;
     }
 
-    public int getValue() {
-        return this.value;
+    public int getCode() {
+        return this.code;
     }
 
     public String getName() {

@@ -50,11 +50,11 @@ public class ProjectTaskService {
                 projectTask.setTaskNo(UniqueKeyUtil.generateTaskNo(projectNo, actionItem.getActionNo(), index));
                 projectTask.setTaskNo(projectNo);
                 projectTask.setUserAccount(userAccount);
-                projectTask.setNotifyTime(generateNotifyTime(schedule.getTimeLevel(), projectTask.getCreateTime()));
+                projectTask.setNotifyTime(generateNotifyTime(schedule.getTimeLevel(), schedule.getTimePoint()));
                 projectTask.setActionNo(actionItem.getActionNo());
-                projectTask.setStatus(TaskStatus.WAIT_SEND.getValue());
+                projectTask.setStatus(TaskStatus.WAIT_SEND);
                 projectTasks.add(projectTask);
-                index ++;
+                index++;
             }
         }
         projectTaskDao.insertTask(projectTasks);
@@ -66,7 +66,7 @@ public class ProjectTaskService {
 
     }
 
-    private List<Schedule> generateSchedule(String scheduleString, Integer timeLevel) {
+    private List<Schedule> generateSchedule(String scheduleString, ScheduleTimeLevel timeLevel) {
         List<Schedule> resultSchedule = Lists.newArrayList();
         for (String s : StringBasicUtils.lineSplitter.splitToList(scheduleString)) {
             Schedule schedule = new Schedule();
@@ -79,7 +79,7 @@ public class ProjectTaskService {
 
             List<Action> actionList = Lists.newArrayList();
             for (String actionNo : detailActionNo) {
-                Action action = actionDao.selectByActioNo(actionNo);
+                Action action = actionDao.selectByActionNo(actionNo);
                 Preconditions.checkNotNull(action);
                 actionList.add(action);
             }
@@ -92,11 +92,10 @@ public class ProjectTaskService {
 
     }
 
-    private Date generateNotifyTime(int timeLevel, Date date) {
-        ScheduleTimeLevel scheduleTimeLevel = ScheduleTimeLevel.valueOf(timeLevel);
-        Preconditions.checkNotNull(scheduleTimeLevel);
-        if (scheduleTimeLevel.equals(ScheduleTimeLevel.DAY)) {
-            return DateUtils.addDays(date, timeLevel);
+    private Date generateNotifyTime(ScheduleTimeLevel timeLevel, int timePoint) {
+        Preconditions.checkNotNull(timeLevel);
+        if (timeLevel.equals(ScheduleTimeLevel.DAY)) {
+            return DateUtils.addDays(new Date(), timePoint);
         }
         throw new TaskException("不支持的时间单位");
     }

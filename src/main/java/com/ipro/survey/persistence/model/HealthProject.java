@@ -1,5 +1,6 @@
 package com.ipro.survey.persistence.model;
 
+import com.ipro.survey.Enum.ScheduleTimeLevel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ public class HealthProject {
     private String projectName;
     private String projectDesc;
     private String schedule;
-    private Integer scheduleTimeLevel;
+    private ScheduleTimeLevel scheduleTimeLevel;
     private Date createTime;
     private Date updateTime;
 
@@ -59,11 +60,12 @@ public class HealthProject {
         this.schedule = schedule;
     }
 
-    public Integer getScheduleTimeLevel() {
+
+    public ScheduleTimeLevel getScheduleTimeLevel() {
         return scheduleTimeLevel;
     }
 
-    public void setScheduleTimeLevel(Integer scheduleTimeLevel) {
+    public void setScheduleTimeLevel(ScheduleTimeLevel scheduleTimeLevel) {
         this.scheduleTimeLevel = scheduleTimeLevel;
     }
 

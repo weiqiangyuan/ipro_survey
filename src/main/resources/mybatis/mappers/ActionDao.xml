@@ -8,7 +8,9 @@
       name,
       desc,
       type,
-      content
+      content,
+      create_time,
+      update_time
     </sql>
 
     <select id="selectByActionNo" resultType="com.ipro.survey.persistence.model.Action">
@@ -19,7 +21,7 @@
     </select>
 
     <select id="insertAction" parameterType="com.ipro.survey.persistence.model.ProjectTask">
-        INSERT INTO tb_project_task
+        INSERT INTO tb_action
         (
         task_no,
         status,
