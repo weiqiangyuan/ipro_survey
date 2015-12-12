@@ -19,6 +19,6 @@ public class UniqueKeyUtil {
         String time = DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS");
         String hashcode = hashFunction.newHasher().putString(projectNo, Charsets.UTF_8)
                 .putString(actionNo, Charsets.UTF_8).hash().toString();
-        return time + Strings.padStart(String.valueOf(index), 3, '0') + hashcode + (int) (Math.random() * 1000);
+        return time + hashcode + Strings.padStart(String.valueOf(index), 3, '0');
     }
 }

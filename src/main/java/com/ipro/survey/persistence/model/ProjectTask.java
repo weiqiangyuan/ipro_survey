@@ -13,7 +13,8 @@ import org.springframework.stereotype.Repository;
 public class ProjectTask {
     private Integer id;
     private String taskNo;
-    private String projectNo;
+    private String projectUniqNo;
+    private Integer scheduleCount;
     private String actionNo;
     private TaskStatus status;
     private String userAccount;
@@ -53,12 +54,20 @@ public class ProjectTask {
         this.userAccount = userAccount;
     }
 
-    public String getProjectNo() {
-        return projectNo;
+    public String getProjectUniqNo() {
+        return projectUniqNo;
     }
 
-    public void setProjectNo(String projectNo) {
-        this.projectNo = projectNo;
+    public void setProjectUniqNo(String projectUniqNo) {
+        this.projectUniqNo = projectUniqNo;
+    }
+
+    public Integer getScheduleCount() {
+        return scheduleCount;
+    }
+
+    public void setScheduleCount(Integer scheduleCount) {
+        this.scheduleCount = scheduleCount;
     }
 
     public String getActionNo() {

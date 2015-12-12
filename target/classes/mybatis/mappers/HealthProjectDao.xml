@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipro.survey.persistence.dao.HealthProjectDao">
+
+    <sql id="columns">
+      id,
+      project_no as projectNo,
+      project_name as projectName,
+      project_desc as projectDesc,
+      schedule as schedule,
+      schedule_time_level as scheduleTimeLevel,
+      create_time as createTime,
+      update_time as updateTime
+    </sql>
+
+    <select id="selectByProjectNo" resultType="com.ipro.survey.persistence.model.HealthProject">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_health_project
+        WHERE project_no = #{projectNo}
+    </select>
+
+</mapper>

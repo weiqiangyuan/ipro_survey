@@ -1,5 +1,6 @@
 package com.ipro.survey.persistence.model;
 
+import com.ipro.survey.Enum.ActionType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,9 +12,9 @@ import java.util.Date;
 public class Action {
     private Integer id;
     private String actionNo;
-    private String name;
-    private String desc;
-    private Integer type;
+    private String actionName;
+    private String actionDesc;
+    private ActionType actionType;
     private Integer showStyle;
     private String content;
     private Date createTime;
@@ -35,28 +36,28 @@ public class Action {
         this.actionNo = actionNo;
     }
 
-    public String getName() {
-        return name;
+    public String getActionName() {
+        return actionName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getActionDesc() {
+        return actionDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setActionDesc(String actionDesc) {
+        this.actionDesc = actionDesc;
     }
 
-    public Integer getType() {
-        return type;
+    public ActionType getActionType() {
+        return actionType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setActionType(ActionType actionType) {
+        this.actionType = actionType;
     }
 
     public Integer getShowStyle() {

@@ -16,6 +16,9 @@ public interface ProjectTaskDao {
 
     ProjectTask selectByTaskNo(@Param("taskNo") String taskNo);
 
+    List<ProjectTask> selectUserCurrentTask(@Param("projectUniqNo") String projectUniqNo,
+            @Param("scheduleCount") Integer scheduleCount);
+
     int insertTask(List<ProjectTask> projectTasks);
 
 }

@@ -37,7 +37,7 @@ public class UserSurveyPaperService {
 
     public UserPaperVO getUserPaperVOByPaperId(Integer paperId, String userAccount, String taskNo) {
         ProjectTask projectTask = projectTaskDao.selectByTaskNo(taskNo);
-        String projectNo = projectTask.getProjectNo();
+        String projectNo = projectTask.getProjectUniqNo();
         PaperVO surveyPaper = surveyPaperManageService.getSurveyPaper(paperId);
 
         UserPaperVO userPaperVO = new UserPaperVO();

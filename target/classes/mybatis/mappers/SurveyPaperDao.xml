@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipro.survey.persistence.dao.SurveyPaperDao">
+
+    <sql id="columns">
+      id,
+      paper_name as paperName,
+      paper_desc as paperDesc,
+      question_ids as questionIds,
+      create_time as createTime,
+      update_time as updateTime
+    </sql>
+
+    <insert id="insertPaper" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.ipro.survey.persistence.model.SurveyPaper">
+        INSERT INTO tb_survey_paper (
+        paper_name,
+        <if test="paperDesc != null">
+            paper_desc,
+        </if>
+        question_ids,
+        create_time,
+        update_time
+        ) VALUES
+        (
+        #{paperName},
+        <if test="paperDesc != null">
+            #{paperDesc},
+        </if>
+        #{questionIds},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <update id="updatePaper" parameterType="com.ipro.survey.persistence.model.SurveyPaper">
+        UPDATE
+        tb_survey_paper
+        <set>
+            <if test="paperName != null">
+                paper_name = #{paperName},
+            </if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+
+    <select id="selectByPaperIds" resultType="com.ipro.survey.persistence.model.SurveyPaper">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_survey_paper
+        WHERE id in
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectByPaperId" resultType="com.ipro.survey.persistence.model.SurveyPaper">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_survey_paper
+        WHERE id = #{id}
+    </select>
+
+
+    <select id="selectByPaperName" resultType="com.ipro.survey.persistence.model.SurveyPaper">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_survey_paper
+        <if test="paperName != null">
+            WHERE paper_name LIKE #{paperName}"%"
+        </if>
+    </select>
+
+</mapper>

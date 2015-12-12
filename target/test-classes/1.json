@@ -1,0 +1,71 @@
+{
+  "_index": "order_info",
+  "_type": "order",
+  "_id": "1$wingswin$3283306",
+  "_score": 1,
+  "_source": {
+    "contact": "李春艳",
+    "contact_mob": "18677170188",
+    "create_time": 1399230110000,
+    "domain": "yyw.trade.qunar.com",
+    "ext_source": "mobile.app.iphone",
+    "flight_num": [
+      {
+        "departure_airport": "NNG",
+        "cabin": "Q",
+        "departure_city": "南宁",
+        "ccabin": "Y",
+        "departure_time": "22:35",
+        "order_id": 3283306,
+        "policy_id": 2359940899,
+        "policy_fid": "MNY140419194825T09300",
+        "airline_company": "中国国际航空公司",
+        "arrival_city": "成都",
+        "arrival_airport": "CTU",
+        "real_flight_num": "",
+        "flight_num": "CA4328",
+        "arrival_time": "00:25",
+        "price": 1030,
+        "last_updated": 1399230111000,
+        "departure_date": 1400083200000
+      }
+    ],
+    "flight_type": "1",
+    "insurance_info": [],
+    "insurance_order_info": [],
+    "order_id": 3283306,
+    "order_no": "yyw140505030150850",
+    "ota_type": 1,
+    "passengers": [
+      {
+        "price_type_code": 2,
+        "card_type": "NI",
+        "update_time": 1399230111000,
+        "ticket_no": "999-2128612600",
+        "name": "叶燕华",
+        "passenger_id": 4622544,
+        "card_num": "450104197909161225",
+        "order_id": 3283306
+      }
+    ],
+    "pay_records": [
+      {
+        "parental_transaction_id": "",
+        "pay_validate_count": 1,
+        "ticket_status": 2,
+        "reconcile_time": 1399230145000,
+        "paycenter_transaction_id": "yyw140505030150850a00000000",
+        "insurance_transaction_id": "yyw140505030150850145c89d5408",
+        "go_pay_time": 1399230125000,
+        "order_id": 3283306,
+        "transaction_id": "yyw140505030150850145c89d5408"
+      }
+    ],
+    "pnr": "JX840D",
+    "product_type": 4,
+    "qunar_username": "xuan1001",
+    "status": 39,
+    "update_time": 1399963824000,
+    "policy_code": "TTQ097CC"
+  }
+}

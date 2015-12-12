@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipro.survey.persistence.dao.UserProjectRefDao">
+
+    <sql id="columns">
+      id,
+      project_uniq_no as projectUniqNo,
+      user_account as userAccount,
+      project_no as projectNo,
+      status,
+      create_time as createTime,
+      update_time as updateTime
+    </sql>
+
+    <select id="selectByProjectUniqNo" resultType="com.ipro.survey.persistence.model.UserProjectRef">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_user_project_ref
+        WHERE project_uniq_no = #{projectUniqNo}
+    </select>
+
+</mapper>
