@@ -23,8 +23,8 @@ public class NotifyMsgProducerService {
     private void sendNotifyMsg(NotifyMessage notifyMessage) {
         Properties properties = new Properties();
         properties.put(PropertyKeyConst.ProducerId, "PID_ipro_task_notify_public_producer");
-        properties.put(PropertyKeyConst.AccessKey, "T7ps2O67f0h7rd7P");
-        properties.put(PropertyKeyConst.SecretKey, "WnFRexI5l6GN4RhscUqBOkzYTMWAkv");
+        properties.put(PropertyKeyConst.AccessKey, "");
+        properties.put(PropertyKeyConst.SecretKey, "");
         Producer producer = ONSFactory.createProducer(properties);
 
         // 在发送消息前，必须调用start方法来启动Producer，只需调用一次即可。
