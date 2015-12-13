@@ -29,7 +29,7 @@ public class UserSurveyPaperService {
     @Resource
     private SurveyPaperManageService surveyPaperManageService;
     @Resource
-    private HealthProjectDao healthProjectDao;
+    private ProjectTaskService projectTaskService;
     @Resource
     private ProjectTaskDao projectTaskDao;
     @Resource
@@ -48,6 +48,7 @@ public class UserSurveyPaperService {
         userPaperVO.setUserAccount(userAccount);
         userPaperVO.setProjectNo(projectNo);
         userPaperVO.setCreateTime(surveyPaper.getCreateTime());
+        userPaperVO.setTaskNo(taskNo);
         return userPaperVO;
     }
 
@@ -63,12 +64,14 @@ public class UserSurveyPaperService {
             surveyResult.setResultValue(answer.getValue());
             surveyResult.setResultOption(String.valueOf(answer.getLocation()));
             surveyResultDao.insertResult(surveyResult);
+            logger.info("用户{}提交的结果是{}", userPaperSubmitParam.getUserAccount(), surveyResult);
         }
         Map ret = Maps.newHashMap();
-        ret.put("paperCount", 1);
-        ret.put("completeCount", 1);
-        ret.put("haveNExtPaper", false);
-        ret.put("nextPageUrl", "hehe");
+        projectTaskService.userCommitTask(userPaperSubmitParam.getUserAccount(), userPaperSubmitParam.getTaskNo());
+        // ret.put("paperCount", 1);
+        // ret.put("completeCount", 1);
+        // ret.put("haveNExtPaper", false);
+        // ret.put("nextPageUrl", "hehe");
         return ret;
     }
 }

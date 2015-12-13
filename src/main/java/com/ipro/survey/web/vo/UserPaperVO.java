@@ -17,6 +17,7 @@ public class UserPaperVO {
     private Integer paperId;
     private String projectNo;
     private String userAccount;
+    private String taskNo;
     private List<Question> questionList;
 
     public String getPaperTitle() {
@@ -73,6 +74,14 @@ public class UserPaperVO {
 
     public void setUserAccount(String userAccount) {
         this.userAccount = userAccount;
+    }
+
+    public String getTaskNo() {
+        return taskNo;
+    }
+
+    public void setTaskNo(String taskNo) {
+        this.taskNo = taskNo;
     }
 
     @Override

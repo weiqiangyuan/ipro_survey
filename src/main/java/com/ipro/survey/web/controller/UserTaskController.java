@@ -46,4 +46,22 @@ public class UserTaskController {
         }
     }
 
+    @RequestMapping(value = { "/userCommitTask" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public JsonResult getUserCurrentList(@RequestParam(required = true) String taskNo,
+            @RequestParam(required = true) String userAccount) {
+
+        try {
+            logger.info("userCommitAction taskNo {} userAccount", taskNo, userAccount);
+            projectTaskService.userCommitTask(userAccount, taskNo);
+            return JsonResult.successJsonResult();
+        } catch (PaperManageException e) {
+            logger.error("用户提交任务发生异常", e);
+            return JsonResult.failureJsonResult("用户提交任务发生异常");
+        } catch (Throwable e) {
+            logger.error("用户提交任务发生未知异常", e);
+            return JsonResult.failureJsonResult("用户提交任务发生未知异常");
+        }
+    }
+
 }

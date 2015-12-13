@@ -104,6 +104,14 @@ public class ProjectTaskService {
         return userTaskListVO;
     }
 
+    public void userCommitTask(String userAccount, String taskNo) {
+        int ret = projectTaskDao.updateProjectTask(taskNo, TaskStatus.DONE.code);
+        logger.info("update task {} {} ret {}", userAccount, taskNo, ret);
+        if (ret <= 0) {
+            throw new TaskException("用户提交task发生异常");
+        }
+    }
+
     private TaskItemVO generateTaskItemVO(ProjectTask projectTask) {
         Action action = actionDao.selectByActionNo(projectTask.getActionNo());
 
@@ -112,8 +120,8 @@ public class ProjectTaskService {
         taskItemVO.setActionNo(projectTask.getActionNo());
         taskItemVO.setIsDone(projectTask.getStatus() == TaskStatus.DONE ? true : false);
         taskItemVO.setType(action.getActionType().feName);
-        taskItemVO.setCHTitle(action.getActionName());
-        taskItemVO.setCHdesc(action.getActionDesc());
+        taskItemVO.setChTitle(action.getActionName());
+        taskItemVO.setChDesc(action.getActionDesc());
         taskItemVO.setIcon("");
         if (action.getActionType() == ActionType.SURVEY) {
             String paperId = action.getContent();

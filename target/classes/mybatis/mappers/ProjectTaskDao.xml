@@ -28,6 +28,12 @@
         WHERE project_uniq_no = #{projectUniqNo} and schedule_count = #{scheduleCount}
     </select>
 
+    <update id="updateProjectTask" parameterType="com.ipro.survey.persistence.model.ProjectTask">
+        update tb_project_task
+        set status = #{status}
+        WHERE task_no = #{taskNo}
+    </update>
+
     <insert id="insertTask" parameterType="com.ipro.survey.persistence.model.ProjectTask">
         INSERT INTO tb_project_task
         (

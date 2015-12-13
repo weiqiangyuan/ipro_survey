@@ -1,17 +1,21 @@
 package com.ipro.survey.web.vo.task;
 
-import com.ipro.survey.pojo.Schedule;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serializable;
 
 /**
  * Created by weiqiang.yuan on 15/12/12 23:39.
  */
-public class TaskItemVO {
-    private String EGTitle;
-    private String CHTitle;
-    private String EGdesc;
-    private String CHdesc;
+public class TaskItemVO implements Serializable {
+
+    private static final long serialVersionUID = -2813907926396152307L;
+
+    private String egTitle;
+    private String chTitle;
+    private String egDesc;
+    private String chDesc;
     private boolean isDone;
     private String url;
     private String type;
@@ -19,36 +23,40 @@ public class TaskItemVO {
     private String actionNo;
     private String taskNo;
 
-    public String getEGTitle() {
-        return EGTitle;
+    public String getEgTitle() {
+        return egTitle;
     }
 
-    public void setEGTitle(String EGTitle) {
-        this.EGTitle = EGTitle;
+    public void setEgTitle(String egTitle) {
+        this.egTitle = egTitle;
     }
 
-    public String getCHTitle() {
-        return CHTitle;
+    public String getChTitle() {
+        return chTitle;
     }
 
-    public void setCHTitle(String CHTitle) {
-        this.CHTitle = CHTitle;
+    public void setChTitle(String chTitle) {
+        this.chTitle = chTitle;
     }
 
-    public String getEGdesc() {
-        return EGdesc;
+    public String getEgDesc() {
+        return egDesc;
     }
 
-    public void setEGdesc(String EGdesc) {
-        this.EGdesc = EGdesc;
+    public void setEgDesc(String egDesc) {
+        this.egDesc = egDesc;
     }
 
-    public String getCHdesc() {
-        return CHdesc;
+    public String getChDesc() {
+        return chDesc;
     }
 
-    public void setCHdesc(String CHdesc) {
-        this.CHdesc = CHdesc;
+    public void setChDesc(String chDesc) {
+        this.chDesc = chDesc;
+    }
+
+    public boolean isDone() {
+        return isDone;
     }
 
     public boolean getIsDone() {
