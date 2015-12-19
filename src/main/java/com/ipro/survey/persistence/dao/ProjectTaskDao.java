@@ -19,8 +19,11 @@ public interface ProjectTaskDao {
     int updateProjectTask(@Param("taskNo") String taskNo, @Param("status") Integer status);
 
     List<ProjectTask> selectUserCurrentTask(@Param("projectUniqNo") String projectUniqNo,
-            @Param("scheduleCount") Integer scheduleCount);
+            @Param("userAccount") String userAccount, @Param("scheduleCount") Integer scheduleCount);
 
     int insertTask(List<ProjectTask> projectTasks);
+
+    int resetTask(@Param("projectUniqNo") String projectUniqNo, @Param("userAccount") String userAccount,
+            @Param("scheduleCount") Integer scheduleCount);
 
 }

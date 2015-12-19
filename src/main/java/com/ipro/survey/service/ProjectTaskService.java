@@ -90,7 +90,8 @@ public class ProjectTaskService {
      * @return
      */
     public UserTaskListVO getUserTaskList(String projectUniqNo, String userAccount, Integer scheduleCount) {
-        List<ProjectTask> projectTasks = projectTaskDao.selectUserCurrentTask(projectUniqNo, scheduleCount);
+        List<ProjectTask> projectTasks = projectTaskDao.selectUserCurrentTask(projectUniqNo, userAccount,
+                scheduleCount);
         UserTaskListVO userTaskListVO = new UserTaskListVO();
         userTaskListVO.setProjectUniqNo(projectUniqNo);
         userTaskListVO.setUserAccount(userAccount);
@@ -120,13 +121,15 @@ public class ProjectTaskService {
         taskItemVO.setActionNo(projectTask.getActionNo());
         taskItemVO.setIsDone(projectTask.getStatus() == TaskStatus.DONE ? true : false);
         taskItemVO.setType(action.getActionType().feName);
-        taskItemVO.setChTitle(action.getActionName());
-        taskItemVO.setChDesc(action.getActionDesc());
+        taskItemVO.setChDesc(action.getContent());
         taskItemVO.setIcon("");
         if (action.getActionType() == ActionType.SURVEY) {
+            taskItemVO.setChDesc(action.getActionDesc());
             String paperId = action.getContent();
             taskItemVO.setUrl("/heartqOl?paperId=" + paperId + "&taskNo=" + projectTask.getTaskNo() + "&userAccount="
                     + projectTask.getUserAccount());
+        } else {
+            taskItemVO.setChDesc(action.getContent());
         }
         return taskItemVO;
     }
