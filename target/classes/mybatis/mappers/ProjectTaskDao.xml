@@ -36,7 +36,7 @@
 
     <update id="resetTask" parameterType="com.ipro.survey.persistence.model.ProjectTask">
         update tb_project_task
-        set status = 0
+        set status = 1
         WHERE project_uniq_no = #{projectUniqNo} and schedule_count = #{scheduleCount} and user_account = #{userAccount}
     </update>
 

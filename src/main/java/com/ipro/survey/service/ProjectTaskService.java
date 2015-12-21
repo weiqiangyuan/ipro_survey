@@ -121,7 +121,7 @@ public class ProjectTaskService {
         taskItemVO.setActionNo(projectTask.getActionNo());
         taskItemVO.setIsDone(projectTask.getStatus() == TaskStatus.DONE ? true : false);
         taskItemVO.setType(action.getActionType().feName);
-        taskItemVO.setChDesc(action.getContent());
+        taskItemVO.setChTitle(action.getActionName());
         taskItemVO.setIcon("");
         if (action.getActionType() == ActionType.SURVEY) {
             taskItemVO.setChDesc(action.getActionDesc());
@@ -143,10 +143,12 @@ public class ProjectTaskService {
             Preconditions.checkArgument(timeAndDetail.size() == 2);
             String time = timeAndDetail.get(0);
             String detail = timeAndDetail.get(1);
+            logger.info("time={} detail={}", time, detail);
             List<String> detailActionNo = StringBasicUtils.commaSplitter.splitToList(detail);
 
             List<Action> actionList = Lists.newArrayList();
             for (String actionNo : detailActionNo) {
+                logger.info("query actionNo={}", actionNo);
                 Action action = actionDao.selectByActionNo(actionNo);
                 Preconditions.checkNotNull(action);
                 actionList.add(action);

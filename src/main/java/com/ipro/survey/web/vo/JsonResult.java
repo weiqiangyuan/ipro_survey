@@ -44,13 +44,15 @@ public class JsonResult<T> implements Serializable {
 
 	public static JsonResult successJsonResult() {
 		JsonResult jsonResult = new JsonResult();
+		jsonResult.setRet(Boolean.TRUE);
 		return jsonResult;
 	}
 
     public static <T> JsonResult successJsonResult(T data) {
         JsonResult jsonResult = new JsonResult();
-        jsonResult.setData(data);
-        return jsonResult;
+		jsonResult.setRet(Boolean.TRUE);
+		jsonResult.setData(data);
+		return jsonResult;
     }
 
     public static <T> JsonResult failureJsonResult(String errmsg) {

@@ -56,6 +56,10 @@ public class UserSurveyPaperService {
     public Map<String, Object> submitSurvey(UserPaperSubmitParam userPaperSubmitParam) {
         List<Answer> answers = userPaperSubmitParam.getAnswers();
         for (Answer answer : answers) {
+            Integer value = answer.getValue();
+            if (value == null) {
+                continue;
+            }
             SurveyResult surveyResult = new SurveyResult();
             surveyResult.setTaskNo(userPaperSubmitParam.getTaskNo());
             surveyResult.setCreateTime(new Date());
@@ -68,10 +72,11 @@ public class UserSurveyPaperService {
         }
         Map ret = Maps.newHashMap();
         projectTaskService.userCommitTask(userPaperSubmitParam.getUserAccount(), userPaperSubmitParam.getTaskNo());
-        // ret.put("paperCount", 1);
-        // ret.put("completeCount", 1);
-        // ret.put("haveNExtPaper", false);
-        // ret.put("nextPageUrl", "hehe");
+
+        ProjectTask projectTask = projectTaskDao.selectByTaskNo(userPaperSubmitParam.getTaskNo());
+        ret.put("scheduleCount", projectTask.getScheduleCount());
+        ret.put("projectUniqNo", projectTask.getProjectUniqNo());
+        ret.put("userAccount", userPaperSubmitParam.getUserAccount());
         return ret;
     }
 }
