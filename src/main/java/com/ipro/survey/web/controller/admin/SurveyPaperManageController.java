@@ -1,4 +1,4 @@
-package com.ipro.survey.web.controller;
+package com.ipro.survey.web.controller.admin;
 
 import com.ipro.survey.exception.PaperManageException;
 import com.ipro.survey.service.SurveyPaperManageService;
@@ -72,11 +72,11 @@ public class SurveyPaperManageController {
             List<PaperListVO> paperList = surveyPaperManageService.getPaperList(paperName);
             return JsonResult.successJsonResult(paperList);
         } catch (PaperManageException e) {
-            logger.error("创建试卷发生异常", e);
-            return JsonResult.failureJsonResult("创建试卷发生异常");
+            logger.error("获取试卷列表发生异常", e);
+            return JsonResult.failureJsonResult("获取试卷列表发生异常");
         } catch (Throwable e) {
-            logger.error("创建试卷发生未知异常", e);
-            return JsonResult.failureJsonResult("创建试卷发生未知异常");
+            logger.error("获取试卷列表发生未知异常", e);
+            return JsonResult.failureJsonResult("获取试卷列表发生未知异常");
         }
     }
 
@@ -89,11 +89,11 @@ public class SurveyPaperManageController {
             PaperVO surveyPaper = surveyPaperManageService.getSurveyPaper(paperId);
             return JsonResult.successJsonResult(surveyPaper);
         } catch (PaperManageException e) {
-            logger.error("创建试卷发生异常", e);
-            return JsonResult.failureJsonResult("创建试卷发生异常");
+            logger.error("读取试卷发生异常", e);
+            return JsonResult.failureJsonResult("读取试卷发生异常");
         } catch (Throwable e) {
-            logger.error("创建试卷发生未知异常", e);
-            return JsonResult.failureJsonResult("创建试卷发生未知异常");
+            logger.error("读取试卷发生未知异常", e);
+            return JsonResult.failureJsonResult("读取试卷发生未知异常");
         }
     }
 }

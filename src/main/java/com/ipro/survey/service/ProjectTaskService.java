@@ -7,11 +7,11 @@ import com.ipro.survey.Enum.ScheduleTimeLevel;
 import com.ipro.survey.Enum.TaskStatus;
 import com.ipro.survey.exception.TaskException;
 import com.ipro.survey.persistence.dao.ActionDao;
-import com.ipro.survey.persistence.dao.HealthProjectDao;
+import com.ipro.survey.persistence.dao.project.HealthProjectDao;
 import com.ipro.survey.persistence.dao.ProjectTaskDao;
 import com.ipro.survey.persistence.dao.UserProjectRefDao;
 import com.ipro.survey.persistence.model.Action;
-import com.ipro.survey.persistence.model.HealthProject;
+import com.ipro.survey.persistence.model.project.HealthProject;
 import com.ipro.survey.persistence.model.ProjectTask;
 import com.ipro.survey.persistence.model.UserProjectRef;
 import com.ipro.survey.pojo.Schedule;
@@ -78,7 +78,7 @@ public class ProjectTaskService {
             scheduleCount++;
         }
         Integer ret = projectTaskDao.insertTask(projectTasks);
-        logger.info("插入用户 {} project {} 任务成功，影响条数 {}", userAccount, projectUniqNo, ret);
+        logger.info("插入用户 {} admin {} 任务成功，影响条数 {}", userAccount, projectUniqNo, ret);
     }
 
     /**
@@ -105,6 +105,11 @@ public class ProjectTaskService {
         return userTaskListVO;
     }
 
+    /**
+     * 用户提交任务完成
+     * @param userAccount
+     * @param taskNo
+     */
     public void userCommitTask(String userAccount, String taskNo) {
         int ret = projectTaskDao.updateProjectTask(taskNo, TaskStatus.DONE.code);
         logger.info("update task {} {} ret {}", userAccount, taskNo, ret);

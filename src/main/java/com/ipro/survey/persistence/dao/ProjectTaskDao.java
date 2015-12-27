@@ -4,8 +4,6 @@ import com.ipro.survey.persistence.model.ProjectTask;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ipro.survey.persistence.model.HealthProject;
-
 import java.util.List;
 
 /**

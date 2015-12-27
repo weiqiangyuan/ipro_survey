@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ipro.survey.persistence.dao.HealthProjectDao">
+<mapper namespace="com.ipro.survey.persistence.dao.project.HealthProjectDao">
 
     <sql id="columns">
       id,
@@ -13,11 +13,39 @@
       update_time as updateTime
     </sql>
 
-    <select id="selectByProjectNo" resultType="com.ipro.survey.persistence.model.HealthProject">
+    <select id="selectByProjectNo" resultType="com.ipro.survey.persistence.model.project.HealthProject">
         SELECT
         <include refid="columns"/>
         FROM tb_health_project
         WHERE project_no = #{projectNo}
+    </select>
+
+    <insert id="insertProject" parameterType="com.ipro.survey.persistence.model.project.HealthProject">
+        INSERT INTO tb_health_project
+        (
+        project_no,
+        project_name,
+        project_desc,
+        schedule,
+        schedule_time_level,
+        create_time
+        )
+        VALUES
+        (
+        #{projectNo},
+        #{projectName},
+        #{projectDesc},
+        #{schedule},
+        #{scheduleTimeLevel},
+        #{createTime}
+        )
+    </insert>
+
+    <select id="selectHealthProjectList" resultType="com.ipro.survey.persistence.model.project.HealthProject">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_health_project
+        limit 500;
     </select>
 
 </mapper>

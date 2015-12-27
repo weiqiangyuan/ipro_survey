@@ -20,6 +20,13 @@
         WHERE action_no = #{actionNo}
     </select>
 
+    <select id="selectActionList" resultType="com.ipro.survey.persistence.model.Action">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_action
+        limit 500
+    </select>
+
     <select id="insertAction" parameterType="com.ipro.survey.persistence.model.ProjectTask">
         INSERT INTO tb_action
         (

@@ -1,13 +1,10 @@
 package com.ipro.survey.service;
 
 import com.google.common.collect.Maps;
-import com.ipro.survey.persistence.dao.HealthProjectDao;
 import com.ipro.survey.persistence.dao.ProjectTaskDao;
 import com.ipro.survey.persistence.dao.SurveyResultDao;
-import com.ipro.survey.persistence.model.HealthProject;
 import com.ipro.survey.persistence.model.ProjectTask;
 import com.ipro.survey.persistence.model.SurveyResult;
-import com.ipro.survey.utils.StringBasicUtils;
 import com.ipro.survey.web.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

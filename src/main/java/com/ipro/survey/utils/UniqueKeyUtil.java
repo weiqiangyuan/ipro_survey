@@ -21,4 +21,10 @@ public class UniqueKeyUtil {
                 .putString(actionNo, Charsets.UTF_8).hash().toString();
         return time + hashcode + Strings.padStart(String.valueOf(index), 3, '0');
     }
+
+    public static String generateProjectNo(String projectName) {
+        String time = DateFormatUtils.format(new Date(), "yyMMddHHmmss");
+        String hashcode = hashFunction.newHasher().putString(projectName, Charsets.UTF_8).hash().toString();
+        return time + hashcode + (int) (Math.random() * 100);
+    }
 }

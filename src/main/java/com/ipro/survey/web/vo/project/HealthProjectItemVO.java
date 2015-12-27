@@ -1,32 +1,20 @@
-package com.ipro.survey.persistence.model;
+package com.ipro.survey.web.vo.project;
 
 import com.ipro.survey.Enum.ScheduleTimeLevel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 
 /**
- * Created by weiqiang.yuan on 15/10/25 11:22.
+ * Created by weiqiang.yuan on 15/12/26 16:11.
  */
-public class HealthProject {
-    private Integer id;
+public class HealthProjectItemVO {
+
     private String projectNo;
     private String projectName;
-    private String projectDesc;
-    private String schedule;
-    private ScheduleTimeLevel scheduleTimeLevel;
     private Date createTime;
     private Date updateTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getProjectNo() {
         return projectNo;
@@ -42,31 +30,6 @@ public class HealthProject {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public String getProjectDesc() {
-        return projectDesc;
-    }
-
-    public void setProjectDesc(String projectDesc) {
-        this.projectDesc = projectDesc;
-    }
-
-    public String getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
-    }
-
-
-    public ScheduleTimeLevel getScheduleTimeLevel() {
-        return scheduleTimeLevel;
-    }
-
-    public void setScheduleTimeLevel(ScheduleTimeLevel scheduleTimeLevel) {
-        this.scheduleTimeLevel = scheduleTimeLevel;
     }
 
     public Date getCreateTime() {

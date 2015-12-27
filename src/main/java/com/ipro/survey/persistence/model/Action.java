@@ -15,7 +15,6 @@ public class Action {
     private String actionName;
     private String actionDesc;
     private ActionType actionType;
-    private Integer showStyle;
     private String content;
     private Date createTime;
     private Date updateTime;
@@ -60,13 +59,6 @@ public class Action {
         this.actionType = actionType;
     }
 
-    public Integer getShowStyle() {
-        return showStyle;
-    }
-
-    public void setShowStyle(Integer showStyle) {
-        this.showStyle = showStyle;
-    }
 
     public String getContent() {
         return content;

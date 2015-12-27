@@ -1,8 +1,10 @@
-package com.ipro.survey.persistence.dao;
+package com.ipro.survey.persistence.dao.project;
 
-import com.ipro.survey.persistence.model.HealthProject;
+import com.ipro.survey.persistence.model.project.HealthProject;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by weiqiang.yuan on 15/10/25 11:19.
@@ -12,5 +14,8 @@ public interface HealthProjectDao {
 
     HealthProject selectByProjectNo(@Param("projectNo") String projectNo);
 
-//    int insertProject(@Param("id") Integer id);
+    List<HealthProject> selectHealthProjectList();
+
+    int insertProject(HealthProject healthProject);
+
 }
