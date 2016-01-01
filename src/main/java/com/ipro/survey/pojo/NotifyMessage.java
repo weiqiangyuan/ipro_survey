@@ -9,12 +9,27 @@ import java.util.Date;
  * Created by weiqiang.yuan on 15/12/13 12:00.
  */
 public class NotifyMessage {
-
+    //给谁推
+    private String userAccount;
+    //消息标题
     private String msgTitle;
+    //消息内容
     private String msgContent;
-    private Date msgDueTime;
-    private String remark;
+    //重要：消息跳转详情页面
     private String redirectUrl;
+    //发送通知的时间
+    private Date notifyTime;
+    private String remark;
+    //消息过期时间，暂无用处
+    private Date msgDueTime;
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
 
     public String getMsgTitle() {
         return msgTitle;
@@ -38,6 +53,14 @@ public class NotifyMessage {
 
     public void setMsgDueTime(Date msgDueTime) {
         this.msgDueTime = msgDueTime;
+    }
+
+    public Date getNotifyTime() {
+        return notifyTime;
+    }
+
+    public void setNotifyTime(Date notifyTime) {
+        this.notifyTime = notifyTime;
     }
 
     public String getRemark() {
