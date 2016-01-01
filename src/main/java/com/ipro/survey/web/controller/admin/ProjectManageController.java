@@ -57,8 +57,44 @@ public class ProjectManageController {
             logger.error("创建project发生异常", e);
             return JsonResult.failureJsonResult(e.getMessage());
         } catch (Throwable e) {
-            logger.error("创建试卷发生未知异常", e);
-            return JsonResult.failureJsonResult("创建试卷发生未知异常");
+            logger.error("创建project发生未知异常", e);
+            return JsonResult.failureJsonResult("创建project发生未知异常");
+        }
+    }
+
+    @RequestMapping(value = { "/update" })
+    @ResponseBody
+    public JsonResult updateProject(@RequestBody HealthProjectDetailVO healthProjectDetailVO) {
+
+        try {
+            logger.info("input param {}", healthProjectDetailVO);
+            healthProjectService.updateProject(healthProjectDetailVO);
+            return JsonResult.successJsonResult(null);
+        } catch (ProjectException e) {
+            logger.error("创建project发生异常", e);
+            return JsonResult.failureJsonResult(e.getMessage());
+        } catch (Throwable e) {
+            logger.error("创建project发生未知异常", e);
+            return JsonResult.failureJsonResult("创建project发生未知异常");
+        }
+    }
+
+    @RequestMapping(value = { "/projectDetail"})
+    @ResponseBody
+    public JsonResult projectDetail(String projectNo) {
+
+        try {
+            logger.info("input param {}", projectNo);
+            HealthProjectDetailVO healthProjectDetailVO = healthProjectService.projectDetail(projectNo);
+            JsonResult jsonResult = JsonResult.successJsonResult(healthProjectDetailVO);
+            logger.info("返回的project详情为{}", jsonResult);
+            return jsonResult;
+        } catch (ProjectException e) {
+            logger.error("读取project发生异常", e);
+            return JsonResult.failureJsonResult(e.getMessage());
+        } catch (Throwable e) {
+            logger.error("读取project发生未知异常", e);
+            return JsonResult.failureJsonResult("读取project发生未知异常");
         }
     }
 

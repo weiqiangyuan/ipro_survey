@@ -41,6 +41,27 @@
         )
     </insert>
 
+    <update id="updateProject" parameterType="com.ipro.survey.persistence.model.project.HealthProject">
+        UPDATE
+        tb_health_project
+        <set>
+            <if test="projectName != null">
+                project_name = #{projectName},
+            </if>
+            <if test="projectDesc != null">
+                project_desc = #{projectDesc},
+            </if>
+            <if test="schedule != null">
+                schedule = #{schedule},
+            </if>
+            <if test="scheduleTimeLevel != null">
+                schedule_time_level = #{scheduleTimeLevel},
+            </if>
+        </set>
+        where
+        project_no = #{projectNo}
+    </update>
+
     <select id="selectHealthProjectList" resultType="com.ipro.survey.persistence.model.project.HealthProject">
         SELECT
         <include refid="columns"/>

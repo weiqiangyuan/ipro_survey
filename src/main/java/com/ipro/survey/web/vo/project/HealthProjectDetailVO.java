@@ -10,10 +10,19 @@ import java.util.List;
  */
 public class HealthProjectDetailVO {
 
+    private String projectNo;
     private String projectDesc;
     private String projectName;
     private Integer scheduleTimeLevel;
     private List<ActionInProject> actionList;
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
+    }
 
     public String getProjectDesc() {
         return projectDesc;

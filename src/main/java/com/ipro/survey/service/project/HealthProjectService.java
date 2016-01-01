@@ -9,6 +9,7 @@ import com.ipro.survey.exception.ProjectException;
 import com.ipro.survey.persistence.dao.project.HealthProjectDao;
 import com.ipro.survey.persistence.model.project.HealthProject;
 import com.ipro.survey.service.transform.TransformModel;
+import com.ipro.survey.utils.StringBasicUtils;
 import com.ipro.survey.utils.UniqueKeyUtil;
 import com.ipro.survey.web.vo.project.ActionInProject;
 import com.ipro.survey.web.vo.project.HealthProjectDetailVO;
@@ -32,6 +33,13 @@ public class HealthProjectService {
     @Resource
     private HealthProjectDao healthProjectDao;
 
+    /**
+     * 获取project列表
+     * 
+     * @param projectName
+     * @param projectNo
+     * @return
+     */
     public List<HealthProjectItemVO> getHealthProjectList(String projectName, String projectNo) {
         List<HealthProject> healthProjects = healthProjectDao.selectHealthProjectList();
         List<HealthProjectItemVO> transformVO = Lists.transform(healthProjects, TransformModel.TO_PROJECT_VO);
@@ -39,6 +47,11 @@ public class HealthProjectService {
         return transformVO;
     }
 
+    /**
+     * 创建project
+     * 
+     * @param healthProjectDetailVO
+     */
     public void createProject(HealthProjectDetailVO healthProjectDetailVO) {
         checkParam(healthProjectDetailVO);
         HealthProject healthProject = new HealthProject();
@@ -54,6 +67,62 @@ public class HealthProjectService {
         if (ret <= 0) {
             throw new ProjectException("保存project异常");
         }
+    }
+
+    /**
+     * 更新project
+     * 
+     * @param healthProjectDetailVO
+     */
+    public void updateProject(HealthProjectDetailVO healthProjectDetailVO) {
+        checkParam(healthProjectDetailVO);
+        HealthProject oldProject = healthProjectDao.selectByProjectNo(healthProjectDetailVO.getProjectNo());
+        if (oldProject == null) {
+            throw new ProjectException("该project不存在");
+        }
+        HealthProject healthProject = new HealthProject();
+        healthProject.setProjectNo(healthProjectDetailVO.getProjectNo());
+        healthProject.setProjectName(healthProjectDetailVO.getProjectName());
+        healthProject.setProjectDesc(healthProjectDetailVO.getProjectDesc());
+        healthProject.setScheduleTimeLevel(ScheduleTimeLevel.codeOf(healthProjectDetailVO.getScheduleTimeLevel()));
+        healthProject.setSchedule(generateScheduleFormular(healthProjectDetailVO.getActionList()));
+        logger.info("更新project参数{}", healthProject);
+        int ret = healthProjectDao.updateProject(healthProject);
+        logger.info("更新project结果{}", ret);
+        if (ret <= 0) {
+            throw new ProjectException("更新project异常");
+        }
+    }
+
+    public HealthProjectDetailVO projectDetail(String projectNo) {
+        HealthProject oldProject = healthProjectDao.selectByProjectNo(projectNo);
+        if (oldProject == null) {
+            throw new ProjectException("该project不存在");
+        }
+        HealthProjectDetailVO healthProjectDetailVO = new HealthProjectDetailVO();
+        healthProjectDetailVO.setProjectNo(projectNo);
+        healthProjectDetailVO.setProjectDesc(oldProject.getProjectDesc());
+        healthProjectDetailVO.setProjectName(oldProject.getProjectName());
+        healthProjectDetailVO.setScheduleTimeLevel(oldProject.getScheduleTimeLevel().getCode());
+
+        List<ActionInProject> actionInProjectList = Lists.newArrayList();
+        String schedule = oldProject.getSchedule();
+        List<String> itemList = StringBasicUtils.lineSplitter.splitToList(schedule);
+        for (String item : itemList) {
+            List<String> actionTimeGroupList = StringBasicUtils.colonSplitter.splitToList(item);
+            String timePoint = actionTimeGroupList.get(0);
+            String actionGroup = actionTimeGroupList.get(1);
+            List<String> actionList = StringBasicUtils.commaSplitter.splitToList(actionGroup);
+            for (String actionItem : actionList) {
+                ActionInProject actionInProject = new ActionInProject();
+                actionInProject.setActionNo(actionItem);
+                actionInProject.setTimePoint(Integer.valueOf(timePoint));
+                actionInProjectList.add(actionInProject);
+            }
+        }
+        healthProjectDetailVO.setActionList(actionInProjectList);
+        logger.info("读取的project详情");
+        return healthProjectDetailVO;
     }
 
     private void checkParam(HealthProjectDetailVO healthProjectDetailVO) {

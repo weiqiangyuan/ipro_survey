@@ -18,4 +18,6 @@ public interface HealthProjectDao {
 
     int insertProject(HealthProject healthProject);
 
+    int updateProject(HealthProject healthProject);
+
 }
