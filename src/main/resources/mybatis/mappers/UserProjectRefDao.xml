@@ -12,6 +12,21 @@
       update_time as updateTime
     </sql>
 
+    <insert id="insertUserProjectRef" parameterType="com.ipro.survey.persistence.model.User">
+        INSERT INTO tb_user_project_ref(
+        project_uniq_no,
+        user_account,
+        project_no,
+        status
+        ) VALUES
+        (
+        #{projectUniqNo},
+        #{userAccount},
+        #{projectNo},
+        #{status}
+        )
+    </insert>
+
     <select id="selectByProjectUniqNo" resultType="com.ipro.survey.persistence.model.UserProjectRef">
         SELECT
         <include refid="columns"/>
@@ -24,6 +39,13 @@
         <include refid="columns"/>
         FROM tb_user_project_ref
         WHERE user_account = #{userAccount}
+    </select>
+
+    <select id="selectValidTaskByAccountAndProjectNo" resultType="com.ipro.survey.persistence.model.UserProjectRef">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_user_project_ref
+        WHERE user_account = #{userAccount} AND project_no = #{projectNo} and status = 1
     </select>
 
 </mapper>

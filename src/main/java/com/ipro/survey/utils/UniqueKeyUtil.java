@@ -27,4 +27,9 @@ public class UniqueKeyUtil {
         String hashcode = hashFunction.newHasher().putString(projectName, Charsets.UTF_8).hash().toString();
         return time + hashcode + (int) (Math.random() * 100);
     }
+
+    public static String generateProjectUniqNo(String projectNo) {
+        String time = DateFormatUtils.format(new Date(), "yyMMddHHmmss");
+        return projectNo + "$" + time;
+    }
 }

@@ -12,8 +12,13 @@ import java.util.List;
 @Repository
 public interface UserProjectRefDao {
 
+    int insertUserProjectRef(UserProjectRef userProjectRef);
+
     UserProjectRef selectByProjectUniqNo(@Param("projectUniqNo") String projectUniqNo);
 
     List<UserProjectRef> selectByUserAccount(@Param("userAccount") String userAccount);
+
+    List<UserProjectRef> selectValidTaskByAccountAndProjectNo(@Param("userAccount") String userAccount,
+            @Param("projectNo") String projectNo);
 
 }

@@ -59,5 +59,21 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = { "/participateProject" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public JsonResult participateProject(String account, String projectNo) {
+
+        try {
+            logger.info("participateProject param = {} {}", account, projectNo);
+            userService.participateProject(account, projectNo);
+            return JsonResult.successJsonResult();
+        } catch (UserException e) {
+            logger.error("用户参加project发生异常", e);
+            return JsonResult.failureJsonResult(e.getMessage());
+        } catch (Throwable e) {
+            logger.error("用户参加project发生未知异常", e);
+            return JsonResult.failureJsonResult("用户参加project发生未知异常");
+        }
+    }
 
 }

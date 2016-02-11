@@ -8,6 +8,7 @@ import com.ipro.survey.persistence.dao.project.HealthProjectDao;
 import com.ipro.survey.persistence.model.User;
 import com.ipro.survey.persistence.model.UserProjectRef;
 import com.ipro.survey.persistence.model.project.HealthProject;
+import com.ipro.survey.utils.UniqueKeyUtil;
 import com.ipro.survey.web.vo.user.UserDetailVO;
 import com.ipro.survey.web.vo.user.UserProjectDetail;
 import com.ipro.survey.web.vo.user.UserVO;
@@ -75,7 +76,6 @@ public class UserService {
         userDetailVO.setUserAccount(user.getAccount());
         userDetailVO.setUserNickName(user.getNickName());
 
-
         UserProjectDetail userProjectDetail = new UserProjectDetail();
         List<UserProjectRef> userProjectRefList = userProjectRefDao.selectByUserAccount(userAccount);
         if (CollectionUtils.isEmpty(userProjectRefList)) {
@@ -103,6 +103,28 @@ public class UserService {
         logger.info("userDetailVO={}", userDetailVO);
         return userDetailVO;
 
+    }
+
+    public void participateProject(String userAccount, String projectNo) {
+        HealthProject healthProject = healthProjectDao.selectByProjectNo(projectNo);
+        if(healthProject == null) {
+            throw new UserException("该项目不存在");
+        }
+        User user = userDao.selectByAccount(userAccount);
+        if(user == null) {
+            throw new UserException("该用户不存在");
+        }
+        List<UserProjectRef> userProjectRefList = userProjectRefDao.selectValidTaskByAccountAndProjectNo(userAccount, projectNo);
+        if (CollectionUtils.isNotEmpty(userProjectRefList)) {
+            throw new UserException("参加项目失败, 用户参加的当前项目尚未完成");
+        }
+        UserProjectRef userProjectRef = new UserProjectRef();
+        userProjectRef.setStatus(1);
+        userProjectRef.setProjectNo(projectNo);
+        userProjectRef.setUserAccount(userAccount);
+        userProjectRef.setProjectUniqNo(UniqueKeyUtil.generateProjectUniqNo(projectNo));
+        int i = userProjectRefDao.insertUserProjectRef(userProjectRef);
+        logger.info("insert user ret = {}", i);
     }
 
 }
