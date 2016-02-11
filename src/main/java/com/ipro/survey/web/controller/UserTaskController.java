@@ -43,7 +43,7 @@ public class UserTaskController {
             @RequestParam(required = true) String userAccount) {
 
         try {
-            logger.info("rcreateTaskList projectUniqNo {} userAccount {}", projectUniqNo, userAccount);
+            logger.info("createTaskList projectUniqNo {} userAccount {}", projectUniqNo, userAccount);
             UserTaskListVO userTaskList = projectTaskService.getUserTaskList(projectUniqNo, userAccount, 1);
             if (CollectionUtils.isEmpty(userTaskList.getListCount())) {
                 logger.info("create task");
@@ -54,7 +54,7 @@ public class UserTaskController {
             }
             Map param = Maps.newHashMap();
             param.put("msgTitle", "Schedule of Day 1");
-            param.put("msgContent", "今天是个重要的日子，你有一些事情需要完成，请点击详情查看。");
+            param.put("msgContent", "今天是个重要的日，你有一些事情需要完成，请点击详情查看。");
             param.put("msgDueTime", DateFormatUtils.format(DateUtils.addHours(new Date(), 12), "yyyy/MM/dd HH:mm"));
             param.put("remark", "");
             param.put("redirectUrl", "http://www.cpzero.cn/schedule?userAccount=" + userAccount + "&projectUniqNo="

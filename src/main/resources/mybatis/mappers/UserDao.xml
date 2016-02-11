@@ -7,10 +7,10 @@
       account,
       nick_name as nickName,
       status,
-      type,
+      type
     </sql>
 
-    <select id="selectUserByAccount" resultType="com.ipro.survey.persistence.model.User">
+    <select id="selectByAccount" resultType="com.ipro.survey.persistence.model.User">
         SELECT
         <include refid="columns"/>
         FROM tb_user

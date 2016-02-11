@@ -1,11 +1,10 @@
 package com.ipro.survey.web.controller;
 
-import com.ipro.survey.exception.PaperManageException;
 import com.ipro.survey.exception.UserException;
 import com.ipro.survey.service.UserService;
 import com.ipro.survey.web.vo.JsonResult;
-import com.ipro.survey.web.vo.UserPaperVO;
-import com.ipro.survey.web.vo.UserVO;
+import com.ipro.survey.web.vo.user.UserDetailVO;
+import com.ipro.survey.web.vo.user.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,7 +31,7 @@ public class UserController {
     public JsonResult createUser(UserVO userVO) {
 
         try {
-            userService.insertWechatUser(userVO);
+            userService.insertUser(userVO);
             return JsonResult.successJsonResult();
         } catch (UserException e) {
             logger.error("创建用户发生异常", e);
@@ -42,4 +41,23 @@ public class UserController {
             return JsonResult.failureJsonResult("创建用户发生未知异常");
         }
     }
+
+    @RequestMapping(value = { "/showUserDetail" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public JsonResult showUserDetail(String account, String nickName) {
+
+        try {
+            userService.createUserIfNotExist(account, nickName);
+            UserDetailVO userDetailVO = userService.showUserDetail(account);
+            return JsonResult.successJsonResult(userDetailVO);
+        } catch (UserException e) {
+            logger.error("获取用户详情发生异常", e);
+            return JsonResult.failureJsonResult(e.getMessage());
+        } catch (Throwable e) {
+            logger.error("获取用户详情未知异常", e);
+            return JsonResult.failureJsonResult("获取用户详情未知异常");
+        }
+    }
+
+
 }

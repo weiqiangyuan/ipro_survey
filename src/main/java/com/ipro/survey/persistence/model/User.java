@@ -1,5 +1,6 @@
 package com.ipro.survey.persistence.model;
 
+import com.ipro.survey.Enum.UserType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -28,7 +29,7 @@ public class User {
     // 用户状态
     private Integer status;
     // 用户来源：weChat
-    private Integer type;
+    private UserType type;
     // 用户扩展信息
     private String extInfo;
 
@@ -104,11 +105,11 @@ public class User {
         this.status = status;
     }
 
-    public Integer getType() {
+    public UserType getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(UserType type) {
         this.type = type;
     }
 

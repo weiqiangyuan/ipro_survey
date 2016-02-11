@@ -19,6 +19,8 @@
                      javaType="com.ipro.survey.Enum.ScheduleTimeLevel"/>
         <typeHandler handler="com.ipro.survey.persistence.handler.CodeEnumTypeHandler"
                      javaType="com.ipro.survey.Enum.ActionType"/>
+        <typeHandler handler="com.ipro.survey.persistence.handler.CodeEnumTypeHandler"
+                     javaType="com.ipro.survey.Enum.UserType"/>
     </typeHandlers>
 
 </configuration>

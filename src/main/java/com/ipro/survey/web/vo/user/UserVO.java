@@ -1,4 +1,4 @@
-package com.ipro.survey.web.vo;
+package com.ipro.survey.web.vo.user;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
