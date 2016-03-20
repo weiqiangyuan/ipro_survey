@@ -33,20 +33,17 @@ public class MessageGenerateService {
         List<ProjectTask> projectTasks = projectTaskDao.selectUserAllTask(projectUniqNo, userAccount);
         Set<Integer> scheduleCount = Sets.newHashSet();
         for (ProjectTask projectTask : projectTasks) {
-            if (!scheduleCount.contains(scheduleCount)) {
-                NotifyMessage notifyMessage = new NotifyMessage();
-                notifyMessage.setUserAccount(userAccount);
-                notifyMessage.setNotifyTime(projectTask.getNotifyTime());
-                notifyMessage.setMsgTitle(String.format(titleTemplate, scheduleCount));
-                notifyMessage.setMsgContent("今天是个重要的日子，你有一些事情需要完成，请点击详情查看。");
-                notifyMessage.setRemark("");
-                notifyMessage
-                        .setRedirectUrl(String.format(redirectTemplate, userAccount, projectUniqNo, scheduleCount));
-                scheduleCount.add(projectTask.getScheduleCount());
-
-                notifyMsgProducerService.sendNotifyMsg(notifyMessage);
-            }
-
+            // if (!scheduleCount.contains(scheduleCount)) {
+            NotifyMessage notifyMessage = new NotifyMessage();
+            notifyMessage.setUserAccount(userAccount);
+            notifyMessage.setNotifyTime(projectTask.getNotifyTime());
+            notifyMessage.setMsgTitle(String.format(titleTemplate, scheduleCount));
+            notifyMessage.setMsgContent("今天是个重要的日子，你有一些事情需要完成，请点击详情查看。");
+            notifyMessage.setRemark("");
+            notifyMessage.setRedirectUrl(String.format(redirectTemplate, userAccount, projectUniqNo, scheduleCount));
+            scheduleCount.add(projectTask.getScheduleCount());
+            notifyMsgProducerService.sendNotifyMsg(notifyMessage);
+            // }
         }
     }
 }

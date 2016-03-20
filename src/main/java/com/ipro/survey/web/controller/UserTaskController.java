@@ -71,6 +71,24 @@ public class UserTaskController {
         }
     }
 
+    @RequestMapping(value = { "/userAllTaskList" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public JsonResult getUserAllTaskList(@RequestParam(required = true) String projectUniqNo,
+            @RequestParam(required = true) String userAccount) {
+
+        try {
+            logger.info("userAllTaskList projectUniqNo {} userAccount{}", projectUniqNo, userAccount);
+            UserTaskListVO userTaskList = projectTaskService.getUserTaskList(projectUniqNo, userAccount, null);
+            return JsonResult.successJsonResult(userTaskList);
+        } catch (PaperManageException e) {
+            logger.error("获取问卷发生异常", e);
+            return JsonResult.failureJsonResult("获取用户当前任务列表异常");
+        } catch (Throwable e) {
+            logger.error("获取问卷发生未知异常", e);
+            return JsonResult.failureJsonResult("获取用户当前任务发生未知异常");
+        }
+    }
+
     @RequestMapping(value = { "/userCurrentList" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public JsonResult getUserCurrentList(@RequestParam(required = true) String projectUniqNo,

@@ -1,5 +1,7 @@
 package com.ipro.survey.service.message.mq;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.utils.JsonUtil;
 import org.slf4j.Logger;
@@ -28,6 +30,8 @@ public class NotifyMsgProducerService {
         properties.put(PropertyKeyConst.SecretKey, "WnFRexI5l6GN4RhscUqBOkzYTMWAkv");
         Producer producer = ONSFactory.createProducer(properties);
 
+        byte[] msgBytes = JSON.toJSONString(notifyMessage).getBytes();
+        // byte[] msgBytes2 = JSON.toJSONString(notifyMessage).getBytes();
         // 在发送消息前，必须调用start方法来启动Producer，只需调用一次即可。
         producer.start();
         Message msg = new Message(
@@ -38,15 +42,15 @@ public class NotifyMsgProducerService {
                 "TagA",
                 // Message Body
                 // 任何二进制形式的数据，ONS不做任何干预，需要Producer与Consumer协商好一致的序列化和反序列化方式
-                JsonUtil.toJson(notifyMessage).getBytes());
+                msgBytes);
 
         // 设置代表消息的业务关键属性，请尽可能全局唯一。
         // 以方便您在无法正常收到消息情况下，可通过ONS Console查询消息并补发。
         // 注意：不设置也不会影响消息正常收发
         msg.setKey("ORDERID_100");
 
-        long deliverTime = System.currentTimeMillis() + 3000;
-        msg.setStartDeliverTime(deliverTime);
+        long deliverTime = notifyMessage.getNotifyTime().getTime() - System.currentTimeMillis();
+        msg.setStartDeliverTime(deliverTime <= 0 ? 0 : deliverTime);
 
         // 发送消息，只要不抛异常就是成功
         logger.info("message send content = {}", msg);

@@ -7,6 +7,7 @@ import com.ipro.survey.web.vo.user.UserDetailVO;
 import com.ipro.survey.web.vo.user.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,9 +34,9 @@ public class UserController {
         try {
             userService.insertUser(userVO);
             return JsonResult.successJsonResult();
-        } catch (UserException e) {
+        } catch (DuplicateKeyException e) {
             logger.error("创建用户发生异常", e);
-            return JsonResult.failureJsonResult("创建用户发生异常");
+            return JsonResult.successJsonResult();
         } catch (Throwable e) {
             logger.error("创建用户发生未知异常", e);
             return JsonResult.failureJsonResult("创建用户发生未知异常");
@@ -44,10 +45,9 @@ public class UserController {
 
     @RequestMapping(value = { "/showUserDetail" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public JsonResult showUserDetail(String account, String nickName) {
+    public JsonResult showUserDetail(String account) {
 
         try {
-            userService.createUserIfNotExist(account, nickName);
             UserDetailVO userDetailVO = userService.showUserDetail(account);
             return JsonResult.successJsonResult(userDetailVO);
         } catch (UserException e) {

@@ -9,7 +9,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class UserDetailVO {
     private String userAccount;
     private String userNickName;
-    private String userLevel;
+    //1、创建完没选project
+    //2、已经选择project
+    //3、当前是个新用户要先创建再选择
+    private Integer status;
 
     private UserProjectDetail userProjectDetail;
 
@@ -36,6 +39,15 @@ public class UserDetailVO {
 
     public void setUserProjectDetail(UserProjectDetail userProjectDetail) {
         this.userProjectDetail = userProjectDetail;
+    }
+
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override

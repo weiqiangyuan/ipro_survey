@@ -16,11 +16,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by weiqiang.yuan on 15/12/5 15:31.
@@ -36,51 +37,59 @@ public class UserService {
     @Resource
     private HealthProjectDao healthProjectDao;
 
+//    private ExecutorService executorService = ThreadPoolExecutor.
+
     public void insertUser(UserVO userVO) {
-        try {
+//        try {
             User user = new User();
-            user.setStatus(userVO.getStatus());
+            user.setStatus(1);
             user.setType(UserType.codeOf(userVO.getType()));
             user.setNickName(userVO.getNickName());
             user.setAccount(userVO.getAccount());
             logger.info("保存用户{}", user);
             int ret = userDao.insertUser(user);
             logger.info("保存用户结果{}", user, ret);
-        } catch (Exception e) {
-            logger.error("创建用户异常{}", userVO, e);
-        }
+//        } catch (Exception e) {
+//            logger.error("创建用户异常{}", userVO, e);
+//            throw new UserException("创建用户异常");
+//        }
     }
 
-    public void createUserIfNotExist(String userAccount, String nickName) {
+    public boolean checkUserIfExist(String userAccount) {
         User user = userDao.selectByAccount(userAccount);
         if (user == null) {
             logger.info("userAccount={} is null", userAccount);
-            UserVO userVO = new UserVO();
-            userVO.setAccount(userAccount);
-            userVO.setNickName(nickName);
-            userVO.setType(1);
-            userVO.setStatus(1);
-            insertUser(userVO);
+            // UserVO userVO = new UserVO();
+            // userVO.setAccount(userAccount);
+            // userVO.setNickName(nickName);
+            // userVO.setType(1);
+            // userVO.setStatus(1);
+            // insertUser(userVO);
+            return false;
         } else {
             logger.info("user ={} exist no need to create", userAccount);
+            return true;
         }
     }
 
     public UserDetailVO showUserDetail(String userAccount) {
         logger.info("show userDetail={}", userAccount);
         User user = userDao.selectByAccount(userAccount);
-        if (user == null) {
-            throw new UserException("用户不存在");
-        }
         UserDetailVO userDetailVO = new UserDetailVO();
+        if (user == null) {
+            userDetailVO.setStatus(3);
+            return userDetailVO;
+        }
+
         userDetailVO.setUserAccount(user.getAccount());
         userDetailVO.setUserNickName(user.getNickName());
 
-        UserProjectDetail userProjectDetail = new UserProjectDetail();
         List<UserProjectRef> userProjectRefList = userProjectRefDao.selectByUserAccount(userAccount);
         if (CollectionUtils.isEmpty(userProjectRefList)) {
+            UserProjectDetail userProjectDetail = new UserProjectDetail();
             userProjectDetail.setHaveProject(false);
             userDetailVO.setUserProjectDetail(userProjectDetail);
+            userDetailVO.setStatus(1);
             return userDetailVO;
         }
         String projectNo = "";
@@ -89,32 +98,42 @@ public class UserService {
             if (userProjectRef.getStatus().equals(1)) {
                 projectNo = userProjectRef.getProjectNo();
                 projectUniqNo = userProjectRef.getProjectUniqNo();
+                break;
             }
         }
         if (StringUtils.isBlank(projectNo)) {
+            UserProjectDetail userProjectDetail = new UserProjectDetail();
             userProjectDetail.setHaveProject(false);
             userDetailVO.setUserProjectDetail(userProjectDetail);
+            userDetailVO.setStatus(1);
             return userDetailVO;
         }
         HealthProject healthProject = healthProjectDao.selectByProjectNo(projectNo);
+
+        UserProjectDetail userProjectDetail = new UserProjectDetail();
         userProjectDetail.setProjectName(healthProject.getProjectName());
         userProjectDetail.setProjectUniqNo(projectUniqNo);
+        userProjectDetail.setHaveProject(true);
+        userProjectDetail.setProgressRate("3/10");
         userDetailVO.setUserProjectDetail(userProjectDetail);
         logger.info("userDetailVO={}", userDetailVO);
+        userDetailVO.setStatus(2);
         return userDetailVO;
 
     }
 
+
     public void participateProject(String userAccount, String projectNo) {
         HealthProject healthProject = healthProjectDao.selectByProjectNo(projectNo);
-        if(healthProject == null) {
+        if (healthProject == null) {
             throw new UserException("该项目不存在");
         }
         User user = userDao.selectByAccount(userAccount);
-        if(user == null) {
+        if (user == null) {
             throw new UserException("该用户不存在");
         }
-        List<UserProjectRef> userProjectRefList = userProjectRefDao.selectValidTaskByAccountAndProjectNo(userAccount, projectNo);
+        List<UserProjectRef> userProjectRefList = userProjectRefDao.selectValidTaskByAccountAndProjectNo(userAccount,
+                projectNo);
         if (CollectionUtils.isNotEmpty(userProjectRefList)) {
             throw new UserException("参加项目失败, 用户参加的当前项目尚未完成");
         }
@@ -125,6 +144,7 @@ public class UserService {
         userProjectRef.setProjectUniqNo(UniqueKeyUtil.generateProjectUniqNo(projectNo));
         int i = userProjectRefDao.insertUserProjectRef(userProjectRef);
         logger.info("insert user ret = {}", i);
+
     }
 
 }

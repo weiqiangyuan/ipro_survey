@@ -5,13 +5,16 @@ import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.service.message.MessageSender;
 import com.ipro.survey.utils.HttpUtil;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 /**
  * Created by weiqiang.yuan on 15/12/19 17:04.
  */
+@Service
 public class WeChatMesseage implements MessageSender {
+
     @Override
     public void send(NotifyMessage notifyMessage) {
         Map param = Maps.newHashMap();

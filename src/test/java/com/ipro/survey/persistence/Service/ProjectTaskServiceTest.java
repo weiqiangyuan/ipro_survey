@@ -2,7 +2,10 @@ package com.ipro.survey.persistence.Service;
 
 import com.google.common.collect.Maps;
 import com.ipro.survey.base.BaseServiceTest;
+import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.service.ProjectTaskService;
+import com.ipro.survey.service.message.MessageSender;
+import com.ipro.survey.service.message.mq.NotifyMsgProducerService;
 import com.ipro.survey.utils.HttpUtil;
 import com.ipro.survey.web.vo.task.UserTaskListVO;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -19,6 +22,12 @@ public class ProjectTaskServiceTest extends BaseServiceTest {
 
     @Resource
     private ProjectTaskService projectTaskService;
+
+    @Resource
+    private MessageSender weChatMesseage;
+
+    @Resource
+    private NotifyMsgProducerService notifyMsgProducerService;
 
     @Test
     public void should_create_task() {
@@ -55,6 +64,22 @@ public class ProjectTaskServiceTest extends BaseServiceTest {
                 "http://www.cpzero.cn/schedule?userAccount=userAccount11&projectUniqNo=123$1&scheduleCount=1");
         HttpUtil.doPost("http://123.56.227.132:3000/template/oewo7wPJosZXZMem-JzRsvGKU7Sk", null, param);
 
+    }
+
+    @Test
+    public void should_send_mq() {
+        NotifyMessage notifyMessage = new NotifyMessage();
+        notifyMessage.setMsgTitle("这个是消息标题");
+        notifyMessage.setRedirectUrl(
+                "http://www.cpzero.cn/schedule?userAccount=userAccount11&projectUniqNo=123$1&scheduleCount=1");
+        notifyMessage.setRemark("<p>评论好几下评论好几下评论好几下</p>评论好几下评论好几下评论好几下");
+        notifyMessage.setMsgContent("这个是消息内容");
+        notifyMessage.setMsgDueTime(new Date());
+        notifyMessage.setUserAccount("oewo7wPJosZXZMem-JzRsvGKU7Sk");
+
+        notifyMsgProducerService.sendNotifyMsg(notifyMessage);
+        // notifyMessage.
+//         weChatMesseage.send(notifyMessage);
     }
 
     public static void main(String[] args) {

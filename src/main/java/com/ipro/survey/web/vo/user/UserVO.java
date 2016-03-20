@@ -14,7 +14,8 @@ public class UserVO {
     private String nickName;
     // 真实姓名
     private String realName;
-
+    // 用户头像
+    private String profileUrl;
     // 手机号
     private String phoneNum;
     // 性别
@@ -23,7 +24,7 @@ public class UserVO {
     private Integer level;
     // 用户状态
     private Integer status;
-    // 用户来源：weChat
+    // 用户来源：1：weChat
     private Integer type;
 
     public Integer getId() {
@@ -96,6 +97,14 @@ public class UserVO {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
     }
 
     @Override

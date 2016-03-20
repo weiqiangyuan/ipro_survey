@@ -90,8 +90,14 @@ public class ProjectTaskService {
      * @return
      */
     public UserTaskListVO getUserTaskList(String projectUniqNo, String userAccount, Integer scheduleCount) {
-        List<ProjectTask> projectTasks = projectTaskDao.selectUserCurrentTask(projectUniqNo, userAccount,
-                scheduleCount);
+        List<ProjectTask> projectTasks;
+        if(scheduleCount == null || scheduleCount == 0) {
+            projectTasks = projectTaskDao.selectUserAllTask(projectUniqNo, userAccount);
+        } else {
+            projectTasks = projectTaskDao.selectUserCurrentTask(projectUniqNo, userAccount,
+                    scheduleCount);
+        }
+
         UserTaskListVO userTaskListVO = new UserTaskListVO();
         userTaskListVO.setProjectUniqNo(projectUniqNo);
         userTaskListVO.setUserAccount(userAccount);

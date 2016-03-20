@@ -297,6 +297,12 @@
             <groupId>apache-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>4.10.4</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

@@ -10,6 +10,7 @@ public class UserProjectDetail {
     private boolean haveProject = false;
     private String projectUniqNo;
     private String projectName;
+    private String progressRate;
 
     public boolean isHaveProject() {
         return haveProject;
@@ -34,6 +35,14 @@ public class UserProjectDetail {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public String getProgressRate() {
+        return progressRate;
+    }
+
+    public void setProgressRate(String progressRate) {
+        this.progressRate = progressRate;
     }
 
     @Override
