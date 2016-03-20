@@ -98,6 +98,7 @@ public class ProjectTaskService {
                     scheduleCount);
         }
 
+        logger.info("taskList={}", projectTasks);
         UserTaskListVO userTaskListVO = new UserTaskListVO();
         userTaskListVO.setProjectUniqNo(projectUniqNo);
         userTaskListVO.setUserAccount(userAccount);

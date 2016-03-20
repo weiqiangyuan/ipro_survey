@@ -36,23 +36,25 @@ public class UserService {
     private UserProjectRefDao userProjectRefDao;
     @Resource
     private HealthProjectDao healthProjectDao;
+    @Resource
+    private ProjectTaskService projectTaskService;
 
-//    private ExecutorService executorService = ThreadPoolExecutor.
+    // private ExecutorService executorService = ThreadPoolExecutor.
 
     public void insertUser(UserVO userVO) {
-//        try {
-            User user = new User();
-            user.setStatus(1);
-            user.setType(UserType.codeOf(userVO.getType()));
-            user.setNickName(userVO.getNickName());
-            user.setAccount(userVO.getAccount());
-            logger.info("保存用户{}", user);
-            int ret = userDao.insertUser(user);
-            logger.info("保存用户结果{}", user, ret);
-//        } catch (Exception e) {
-//            logger.error("创建用户异常{}", userVO, e);
-//            throw new UserException("创建用户异常");
-//        }
+        // try {
+        User user = new User();
+        user.setStatus(1);
+        user.setType(UserType.codeOf(userVO.getType()));
+        user.setNickName(userVO.getNickName());
+        user.setAccount(userVO.getAccount());
+        logger.info("保存用户{}", user);
+        int ret = userDao.insertUser(user);
+        logger.info("保存用户结果{}", user, ret);
+        // } catch (Exception e) {
+        // logger.error("创建用户异常{}", userVO, e);
+        // throw new UserException("创建用户异常");
+        // }
     }
 
     public boolean checkUserIfExist(String userAccount) {
@@ -122,7 +124,6 @@ public class UserService {
 
     }
 
-
     public void participateProject(String userAccount, String projectNo) {
         HealthProject healthProject = healthProjectDao.selectByProjectNo(projectNo);
         if (healthProject == null) {
@@ -141,9 +142,12 @@ public class UserService {
         userProjectRef.setStatus(1);
         userProjectRef.setProjectNo(projectNo);
         userProjectRef.setUserAccount(userAccount);
-        userProjectRef.setProjectUniqNo(UniqueKeyUtil.generateProjectUniqNo(projectNo));
+        String projectUniqNo = UniqueKeyUtil.generateProjectUniqNo(projectNo);
+        userProjectRef.setProjectUniqNo(projectUniqNo);
         int i = userProjectRefDao.insertUserProjectRef(userProjectRef);
         logger.info("insert user ret = {}", i);
+
+        projectTaskService.createUserTaskList(projectUniqNo, userAccount);
 
     }
 
