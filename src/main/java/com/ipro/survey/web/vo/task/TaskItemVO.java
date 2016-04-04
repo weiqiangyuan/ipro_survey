@@ -22,6 +22,7 @@ public class TaskItemVO implements Serializable {
     private String icon;
     private String actionNo;
     private String taskNo;
+    private Integer scheduleCount;
 
     public String getEgTitle() {
         return egTitle;
@@ -105,6 +106,14 @@ public class TaskItemVO implements Serializable {
 
     public void setTaskNo(String taskNo) {
         this.taskNo = taskNo;
+    }
+
+    public Integer getScheduleCount() {
+        return scheduleCount;
+    }
+
+    public void setScheduleCount(Integer scheduleCount) {
+        this.scheduleCount = scheduleCount;
     }
 
     @Override

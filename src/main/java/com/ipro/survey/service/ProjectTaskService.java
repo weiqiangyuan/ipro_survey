@@ -2,6 +2,7 @@ package com.ipro.survey.service;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.ipro.survey.Enum.ActionType;
 import com.ipro.survey.Enum.ScheduleTimeLevel;
 import com.ipro.survey.Enum.TaskStatus;
@@ -18,6 +19,7 @@ import com.ipro.survey.pojo.Schedule;
 import com.ipro.survey.utils.StringBasicUtils;
 import com.ipro.survey.utils.UniqueKeyUtil;
 import com.ipro.survey.web.vo.task.TaskItemVO;
+import com.ipro.survey.web.vo.task.UserAllTaskListVO;
 import com.ipro.survey.web.vo.task.UserTaskListVO;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -26,8 +28,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.print.attribute.standard.SheetCollate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by weiqiang.yuan on 15/12/5 22:49.
@@ -78,7 +82,7 @@ public class ProjectTaskService {
             scheduleCount++;
         }
         Integer ret = projectTaskDao.insertTask(projectTasks);
-        logger.info("插入用户 {} admin {} 任务成功，影响条数 {}", userAccount, projectUniqNo, ret);
+        logger.info("插入用户 {} projectUniqNo {} 任务成功，影响条数 {}", userAccount, projectUniqNo, ret);
     }
 
     /**
@@ -90,13 +94,8 @@ public class ProjectTaskService {
      * @return
      */
     public UserTaskListVO getUserTaskList(String projectUniqNo, String userAccount, Integer scheduleCount) {
-        List<ProjectTask> projectTasks;
-        if(scheduleCount == null || scheduleCount == 0) {
-            projectTasks = projectTaskDao.selectUserAllTask(projectUniqNo, userAccount);
-        } else {
-            projectTasks = projectTaskDao.selectUserCurrentTask(projectUniqNo, userAccount,
-                    scheduleCount);
-        }
+        List<ProjectTask> projectTasks = projectTaskDao.selectUserCurrentTask(projectUniqNo, userAccount,
+                scheduleCount);
 
         logger.info("taskList={}", projectTasks);
         UserTaskListVO userTaskListVO = new UserTaskListVO();
@@ -112,8 +111,28 @@ public class ProjectTaskService {
         return userTaskListVO;
     }
 
+    public UserAllTaskListVO getUserAllTaskList(String projectUniqNo, String userAccount) {
+        logger.info("userAllTaskList projectUniqNo= {} userAccount= {}", projectUniqNo, userAccount);
+        List<ProjectTask> projectTasks = projectTaskDao.selectUserAllTask(projectUniqNo, userAccount);
+        logger.info("taskList={}", projectTasks);
+        UserAllTaskListVO userTaskListVO = new UserAllTaskListVO();
+        userTaskListVO.setProjectUniqNo(projectUniqNo);
+        userTaskListVO.setUserAccount(userAccount);
+
+        Set<Integer> pushCount = Sets.newHashSet();
+        List<TaskItemVO> taskItemVOList = Lists.newArrayList();
+        for (ProjectTask projectTask : projectTasks) {
+            taskItemVOList.add(generateTaskItemVO(projectTask));
+            pushCount.add(projectTask.getScheduleCount());
+        }
+        userTaskListVO.setListCount(taskItemVOList);
+        userTaskListVO.setPushCount(pushCount.size());
+        return userTaskListVO;
+    }
+
     /**
      * 用户提交任务完成
+     * 
      * @param userAccount
      * @param taskNo
      */
@@ -135,6 +154,7 @@ public class ProjectTaskService {
         taskItemVO.setType(action.getActionType().feName);
         taskItemVO.setChTitle(action.getActionName());
         taskItemVO.setIcon("");
+        taskItemVO.setScheduleCount(projectTask.getScheduleCount());
         if (action.getActionType() == ActionType.SURVEY) {
             taskItemVO.setChDesc(action.getActionDesc());
             String paperId = action.getContent();
@@ -178,8 +198,13 @@ public class ProjectTaskService {
         Preconditions.checkNotNull(timeLevel);
         if (timeLevel.equals(ScheduleTimeLevel.DAY)) {
             return DateUtils.addDays(new Date(), timePoint);
+        } else if (timeLevel.equals(ScheduleTimeLevel.HOUR)) {
+            return DateUtils.addHours(new Date(), timePoint);
+        } else if (timeLevel.equals(ScheduleTimeLevel.MINUTE)) {
+            return DateUtils.addMinutes(new Date(), timePoint);
+        } else {
+            throw new TaskException("不支持的时间单位");
         }
-        throw new TaskException("不支持的时间单位");
     }
 
 }

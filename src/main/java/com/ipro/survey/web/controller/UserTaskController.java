@@ -7,6 +7,7 @@ import com.ipro.survey.service.ProjectTaskService;
 import com.ipro.survey.utils.HttpUtil;
 import com.ipro.survey.web.vo.JsonResult;
 import com.ipro.survey.web.vo.UserPaperVO;
+import com.ipro.survey.web.vo.task.UserAllTaskListVO;
 import com.ipro.survey.web.vo.task.UserTaskListVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -77,15 +78,15 @@ public class UserTaskController {
             @RequestParam(required = true) String userAccount) {
 
         try {
-            logger.info("userAllTaskList projectUniqNo {} userAccount{}", projectUniqNo, userAccount);
-            UserTaskListVO userTaskList = projectTaskService.getUserTaskList(projectUniqNo, userAccount, null);
+            logger.info("userAllTaskList projectUniqNo= {} userAccount= {}", projectUniqNo, userAccount);
+            UserAllTaskListVO userTaskList = projectTaskService.getUserAllTaskList(projectUniqNo, userAccount);
             return JsonResult.successJsonResult(userTaskList);
         } catch (PaperManageException e) {
-            logger.error("获取问卷发生异常", e);
-            return JsonResult.failureJsonResult("获取用户当前任务列表异常");
+            logger.error("获取用户全部任务列表异常", e);
+            return JsonResult.failureJsonResult("获取用户全部任务列表异常");
         } catch (Throwable e) {
-            logger.error("获取问卷发生未知异常", e);
-            return JsonResult.failureJsonResult("获取用户当前任务发生未知异常");
+            logger.error("获取用户全部任务列表发生未知异常", e);
+            return JsonResult.failureJsonResult("获取用户全部任务列表发生未知异常");
         }
     }
 

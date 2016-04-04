@@ -21,4 +21,9 @@ public interface UserProjectRefDao {
     List<UserProjectRef> selectValidTaskByAccountAndProjectNo(@Param("userAccount") String userAccount,
             @Param("projectNo") String projectNo);
 
+    int deleteByUniqNo();
+
+    int invalidByUserAccountAndProjectUniqNo(@Param("userAccount") String userAccount,
+            @Param("projectUniqNo") String projectUniqNo);
+
 }

@@ -1,6 +1,7 @@
 package com.ipro.survey.service;
 
 import com.ipro.survey.Enum.UserType;
+import com.ipro.survey.exception.ProjectException;
 import com.ipro.survey.exception.UserException;
 import com.ipro.survey.persistence.dao.UserDao;
 import com.ipro.survey.persistence.dao.UserProjectRefDao;
@@ -8,6 +9,7 @@ import com.ipro.survey.persistence.dao.project.HealthProjectDao;
 import com.ipro.survey.persistence.model.User;
 import com.ipro.survey.persistence.model.UserProjectRef;
 import com.ipro.survey.persistence.model.project.HealthProject;
+import com.ipro.survey.service.message.MessageGenerateService;
 import com.ipro.survey.utils.UniqueKeyUtil;
 import com.ipro.survey.web.vo.user.UserDetailVO;
 import com.ipro.survey.web.vo.user.UserProjectDetail;
@@ -17,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -38,6 +41,8 @@ public class UserService {
     private HealthProjectDao healthProjectDao;
     @Resource
     private ProjectTaskService projectTaskService;
+    @Resource
+    private MessageGenerateService messageGenerateService;
 
     // private ExecutorService executorService = ThreadPoolExecutor.
 
@@ -124,7 +129,8 @@ public class UserService {
 
     }
 
-    public void participateProject(String userAccount, String projectNo) {
+    @Transactional
+    public String participateProject(String userAccount, String projectNo) {
         HealthProject healthProject = healthProjectDao.selectByProjectNo(projectNo);
         if (healthProject == null) {
             throw new UserException("该项目不存在");
@@ -145,10 +151,21 @@ public class UserService {
         String projectUniqNo = UniqueKeyUtil.generateProjectUniqNo(projectNo);
         userProjectRef.setProjectUniqNo(projectUniqNo);
         int i = userProjectRefDao.insertUserProjectRef(userProjectRef);
-        logger.info("insert user ret = {}", i);
+        logger.info("insert user ret = {} projectUniqNo = {}", i, projectUniqNo);
 
         projectTaskService.createUserTaskList(projectUniqNo, userAccount);
 
+        messageGenerateService.generateNotifyMessage(projectUniqNo, userAccount);
+
+        return projectUniqNo;
+
+    }
+
+    public void quitProject(String userAccount, String projectUniqNo) {
+        int i = userProjectRefDao.invalidByUserAccountAndProjectUniqNo(userAccount, projectUniqNo);
+        if(i <=0) {
+            throw new ProjectException("取消project失败");
+        }
     }
 
 }

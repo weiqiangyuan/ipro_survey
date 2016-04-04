@@ -48,4 +48,13 @@
         WHERE user_account = #{userAccount} AND project_no = #{projectNo} and status = 1
     </select>
 
+    <delete id="deleteByUniqNo">
+       DELETE  FROM tb_user_project_ref
+       WHERE user_account = "oewo7wMrPRdkfCxLhkQ0qTTMyRME" and status=1
+    </delete>
+
+    <delete id="deleteYwqByUniqNo">
+        DELETE  FROM tb_user_project_ref
+        WHERE user_account = "oewo7wPJosZXZMem-JzRsvGKU7Sk" and status=1
+    </delete>
 </mapper>

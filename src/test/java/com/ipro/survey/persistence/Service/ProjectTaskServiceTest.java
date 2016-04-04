@@ -36,7 +36,7 @@ public class ProjectTaskServiceTest extends BaseServiceTest {
 
     @Test
     public void should_get_user_current_list() {
-        UserTaskListVO userAccount11 = projectTaskService.getUserTaskList("123$1", "userAccount11", 1);
+        UserTaskListVO userAccount11 = projectTaskService.getUserAllTaskList("123$1", "oewo7wPJosZXZMem-JzRsvGKU7Sk");
         logger.info("=={}", userAccount11);
     }
 

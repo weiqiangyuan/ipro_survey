@@ -49,8 +49,9 @@ public class NotifyMsgProducerService {
         // 注意：不设置也不会影响消息正常收发
         msg.setKey("ORDERID_100");
 
-        long deliverTime = notifyMessage.getNotifyTime().getTime() - System.currentTimeMillis();
-        msg.setStartDeliverTime(deliverTime <= 0 ? 0 : deliverTime);
+//        long deliverTime = notifyMessage.getNotifyTime().getTime() - System.currentTimeMillis();
+//        logger.info("deleverTime");
+        msg.setStartDeliverTime(notifyMessage.getNotifyTime().getTime());
 
         // 发送消息，只要不抛异常就是成功
         logger.info("message send content = {}", msg);

@@ -8,6 +8,7 @@
       status as status,
       user_account as userAccount,
       project_uniq_no as projectUniqNo,
+      schedule_count as scheduleCount,
       action_no as actionNo,
       create_time as createTime,
       notify_time as notifyTime,

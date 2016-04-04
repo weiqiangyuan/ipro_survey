@@ -1,5 +1,6 @@
 package com.ipro.survey.web.controller;
 
+import com.ipro.survey.exception.ProjectException;
 import com.ipro.survey.exception.UserException;
 import com.ipro.survey.service.UserService;
 import com.ipro.survey.web.vo.JsonResult;
@@ -65,14 +66,32 @@ public class UserController {
 
         try {
             logger.info("participateProject param = {} {}", account, projectNo);
-            userService.participateProject(account, projectNo);
-            return JsonResult.successJsonResult();
-        } catch (UserException e) {
+            String projectUniqNo = userService.participateProject(account, projectNo);
+            return JsonResult.successJsonResult(projectUniqNo);
+        } catch (ProjectException e) {
             logger.error("用户参加project发生异常", e);
             return JsonResult.failureJsonResult(e.getMessage());
         } catch (Throwable e) {
             logger.error("用户参加project发生未知异常", e);
             return JsonResult.failureJsonResult("用户参加project发生未知异常");
+        }
+    }
+
+    @RequestMapping(value = { "/quitProject" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public JsonResult quitProject(String projectUniqNo, String userAccount, String reason) {
+
+        try {
+            logger.info("quitProject param projectUniqNo={} userAccount={} reason={}", projectUniqNo, userAccount,
+                    reason);
+            userService.quitProject(userAccount, projectUniqNo);
+            return JsonResult.successJsonResult();
+        } catch (ProjectException e) {
+            logger.error("取消任务发生异常", e);
+            return JsonResult.failureJsonResult("取消任务发生异常");
+        } catch (Throwable e) {
+            logger.error("取消任务发生未知异常", e);
+            return JsonResult.failureJsonResult("取消任务发生未知异常");
         }
     }
 

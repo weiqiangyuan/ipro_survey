@@ -5,6 +5,7 @@ import com.ipro.survey.persistence.dao.ProjectTaskDao;
 import com.ipro.survey.persistence.model.ProjectTask;
 import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.service.message.mq.NotifyMsgProducerService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,18 +32,21 @@ public class MessageGenerateService {
 
     public void generateNotifyMessage(String projectUniqNo, String userAccount) {
         List<ProjectTask> projectTasks = projectTaskDao.selectUserAllTask(projectUniqNo, userAccount);
-        Set<Integer> scheduleCount = Sets.newHashSet();
+        Set<Integer> scheduleCountSet = Sets.newHashSet();
         for (ProjectTask projectTask : projectTasks) {
-            // if (!scheduleCount.contains(scheduleCount)) {
-            NotifyMessage notifyMessage = new NotifyMessage();
-            notifyMessage.setUserAccount(userAccount);
-            notifyMessage.setNotifyTime(projectTask.getNotifyTime());
-            notifyMessage.setMsgTitle(String.format(titleTemplate, scheduleCount));
-            notifyMessage.setMsgContent("今天是个重要的日子，你有一些事情需要完成，请点击详情查看。");
-            notifyMessage.setRemark("");
-            notifyMessage.setRedirectUrl(String.format(redirectTemplate, userAccount, projectUniqNo, scheduleCount));
-            scheduleCount.add(projectTask.getScheduleCount());
-            notifyMsgProducerService.sendNotifyMsg(notifyMessage);
+            if (!scheduleCountSet.contains(projectTask.getScheduleCount())) {
+                NotifyMessage notifyMessage = new NotifyMessage();
+                notifyMessage.setUserAccount(userAccount);
+                notifyMessage.setNotifyTime(projectTask.getNotifyTime());
+                notifyMessage.setMsgTitle(String.format(titleTemplate, projectTask.getScheduleCount()));
+                notifyMessage.setMsgDueTime(DateUtils.addHours(projectTask.getNotifyTime(), 2));
+                notifyMessage.setMsgContent("今天是个重要的日子，你有一些事情需要完成，请点击详情查看。");
+                notifyMessage.setRemark("");
+                notifyMessage.setRedirectUrl(
+                        String.format(redirectTemplate, userAccount, projectUniqNo, projectTask.getScheduleCount()));
+                scheduleCountSet.add(projectTask.getScheduleCount());
+                notifyMsgProducerService.sendNotifyMsg(notifyMessage);
+            }
             // }
         }
     }

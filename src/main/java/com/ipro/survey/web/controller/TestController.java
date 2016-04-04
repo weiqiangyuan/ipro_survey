@@ -1,6 +1,8 @@
 package com.ipro.survey.web.controller;
 
 import com.ipro.survey.exception.UserException;
+import com.ipro.survey.persistence.dao.UserProjectRefDao;
+import com.ipro.survey.persistence.model.UserProjectRef;
 import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.service.message.mq.NotifyMsgConsumerService;
 import com.ipro.survey.service.message.mq.NotifyMsgProducerService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by weiqiang.yuan on 16/2/26 23:34.
@@ -30,6 +33,9 @@ public class TestController {
     @Resource
     private NotifyMsgConsumerService notifyMsgConsumerService;
 
+    @Resource
+    private UserProjectRefDao userProjectRefDao;
+
     @RequestMapping(value = { "/msg" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public JsonResult createUser() {
@@ -43,10 +49,11 @@ public class TestController {
             notifyMessage.setMsgContent("这个是消息内容");
             notifyMessage.setMsgDueTime(new Date());
             notifyMessage.setUserAccount("oewo7wPJosZXZMem-JzRsvGKU7Sk");
+            notifyMessage.setNotifyTime(new Date());
 
             notifyMsgConsumerService.consumeNotifyMsg();
             int i = 0;
-            while ( i <100) {
+            while (i < 100) {
                 notifyMsgProducerService.sendNotifyMsg(notifyMessage);
                 Thread.sleep(5000);
 
@@ -61,4 +68,23 @@ public class TestController {
             return JsonResult.failureJsonResult("创建用户发生未知异常");
         }
     }
+
+    @RequestMapping(value = { "/clearUserProject" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public JsonResult clear() {
+
+        try {
+            int i = userProjectRefDao.deleteByUniqNo();
+            logger.info("==={}", i);
+            return JsonResult.successJsonResult();
+        } catch (UserException e) {
+            logger.error("创建用户发生异常", e);
+            return JsonResult.failureJsonResult("创建用户发生异常");
+        } catch (Throwable e) {
+            logger.error("创建用户发生未知异常", e);
+            return JsonResult.failureJsonResult("创建用户发生未知异常");
+        }
+    }
+
+
 }

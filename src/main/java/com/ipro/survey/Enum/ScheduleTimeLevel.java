@@ -29,6 +29,12 @@ public enum ScheduleTimeLevel {
         return null;
     }
 
+    public  static boolean isSupport(ScheduleTimeLevel scheduleTimeLevel) {
+        if(scheduleTimeLevel.equals(DAY) || scheduleTimeLevel.equals(HOUR) || scheduleTimeLevel.equals(MINUTE)) {
+            return true;
+        }
+        return false;
+    }
     public int getCode() {
         return this.code;
     }

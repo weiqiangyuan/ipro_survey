@@ -11,6 +11,9 @@
     <context:property-placeholder location="classpath:dbconfig.properties" ignore-unresolvable="true"/>
     <context:component-scan base-package="com.ipro.survey"/>
 
+    <bean class="com.ipro.survey.service.event.SpringContextRefreshListener"/>
+
+
     <import resource="classpath*:property.xml"/>
     <import resource="classpath*:service.xml"/>
     <import resource="classpath*:dao.xml"/>

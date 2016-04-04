@@ -36,10 +36,8 @@ public class NotifyMsgConsumerService {
             public Action consume(Message message, ConsumeContext context) {
                 logger.info("Receive: {}", message);
                 byte[] body = message.getBody();
-//                String jsonString = JSON.toJSONString(body);
-//                logger.info("json String={}", jsonString);
                 NotifyMessage notifyMessage = JSON.parseObject(body, NotifyMessage.class);
-                logger.info("json String={}", notifyMessage);
+                logger.info("json String from NotifyMsg={}", notifyMessage);
                 weChatMesseage.send(notifyMessage);
                 return Action.CommitMessage;
             }
