@@ -1,9 +1,8 @@
 package com.ipro.survey.web.controller;
 
-import javax.annotation.Resource;
-
+import com.ipro.survey.exception.PaperManageException;
 import com.ipro.survey.service.UserSurveyPaperService;
-import com.ipro.survey.web.vo.PaperVO;
+import com.ipro.survey.web.vo.JsonResult;
 import com.ipro.survey.web.vo.UserPaperSubmitParam;
 import com.ipro.survey.web.vo.UserPaperVO;
 import org.slf4j.Logger;
@@ -11,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.ipro.survey.exception.PaperManageException;
-import com.ipro.survey.service.SurveyPaperManageService;
-import com.ipro.survey.web.vo.JsonResult;
-
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**

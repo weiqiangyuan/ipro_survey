@@ -50,6 +50,7 @@ public class UserController {
 
         try {
             UserDetailVO userDetailVO = userService.showUserDetail(account);
+            logger.info("userDetailVO={}", userDetailVO);
             return JsonResult.successJsonResult(userDetailVO);
         } catch (UserException e) {
             logger.error("获取用户详情发生异常", e);

@@ -1,6 +1,5 @@
 package com.ipro.survey.web.vo.project;
 
-import com.ipro.survey.Enum.ScheduleTimeLevel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

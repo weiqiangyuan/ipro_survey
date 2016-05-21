@@ -53,9 +53,9 @@
        WHERE user_account = "oewo7wMrPRdkfCxLhkQ0qTTMyRME" and status=1
     </delete>
 
-    <delete id="invalidByUserAccountAndProjectUniqNo">
+    <update id="invalidByUserAccountAndProjectUniqNo">
         UPDATE tb_user_project_ref
         SET status=0
         WHERE user_account = #{userAccount} and project_uniq_no = #{projectUniqNo}
-    </delete>
+    </update>
 </mapper>

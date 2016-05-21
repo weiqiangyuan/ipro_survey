@@ -63,9 +63,9 @@ public class ProjectTaskService {
         List<Schedule> schedules = generateSchedule(healthProject.getSchedule(), healthProject.getScheduleTimeLevel());
         List<ProjectTask> projectTasks = Lists.newArrayList();
         int scheduleCount = 1;
+        int index = 1;
         for (Schedule schedule : schedules) {
             List<Action> actions = schedule.getAction();
-            int index = 1;
             for (Action actionItem : actions) {
                 ProjectTask projectTask = new ProjectTask();
                 projectTask.setCreateTime(new Date());

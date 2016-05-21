@@ -1,15 +1,19 @@
 package com.ipro.survey.service;
 
+import com.ipro.survey.Enum.TaskStatus;
 import com.ipro.survey.Enum.UserType;
 import com.ipro.survey.exception.ProjectException;
 import com.ipro.survey.exception.UserException;
+import com.ipro.survey.persistence.dao.ProjectTaskDao;
 import com.ipro.survey.persistence.dao.UserDao;
 import com.ipro.survey.persistence.dao.UserProjectRefDao;
 import com.ipro.survey.persistence.dao.project.HealthProjectDao;
+import com.ipro.survey.persistence.model.ProjectTask;
 import com.ipro.survey.persistence.model.User;
 import com.ipro.survey.persistence.model.UserProjectRef;
 import com.ipro.survey.persistence.model.project.HealthProject;
 import com.ipro.survey.service.message.MessageGenerateService;
+import com.ipro.survey.service.thread.NotifyMessageWorker;
 import com.ipro.survey.utils.UniqueKeyUtil;
 import com.ipro.survey.web.vo.user.UserDetailVO;
 import com.ipro.survey.web.vo.user.UserProjectDetail;
@@ -22,8 +26,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -43,8 +49,10 @@ public class UserService {
     private ProjectTaskService projectTaskService;
     @Resource
     private MessageGenerateService messageGenerateService;
+    @Resource
+    private ProjectTaskDao projectTaskDao;
 
-    // private ExecutorService executorService = ThreadPoolExecutor.
+    private ExecutorService executorService = Executors.newCachedThreadPool();
 
     public void insertUser(UserVO userVO) {
         // try {
@@ -121,12 +129,25 @@ public class UserService {
         userProjectDetail.setProjectName(healthProject.getProjectName());
         userProjectDetail.setProjectUniqNo(projectUniqNo);
         userProjectDetail.setHaveProject(true);
-        userProjectDetail.setProgressRate("3/10");
+        List<ProjectTask> projectTasks = projectTaskDao.selectUserAllTask(projectUniqNo, userAccount);
+        double done = 0;
+        double allTaskNum = CollectionUtils.isEmpty(projectTasks) ? 1 : projectTasks.size();
+        for (ProjectTask projectTask : projectTasks) {
+            if (projectTask.getStatus() == TaskStatus.DONE) {
+                done++;
+            }
+        }
+        BigDecimal percent = new BigDecimal((done / allTaskNum) * 100);
+
+        userProjectDetail.setProgressRate(percent.setScale(2, BigDecimal.ROUND_HALF_UP).toString()+"%");
         userDetailVO.setUserProjectDetail(userProjectDetail);
-        logger.info("userDetailVO={}", userDetailVO);
         userDetailVO.setStatus(2);
         return userDetailVO;
 
+    }
+
+    public static void main(String[] args) {
+        System.out.println(9d / 11d);
     }
 
     @Transactional
@@ -155,7 +176,10 @@ public class UserService {
 
         projectTaskService.createUserTaskList(projectUniqNo, userAccount);
 
-        messageGenerateService.generateNotifyMessage(projectUniqNo, userAccount);
+        NotifyMessageWorker notifyMessageWorker = new NotifyMessageWorker(userAccount, projectUniqNo,
+                messageGenerateService);
+
+        executorService.submit(notifyMessageWorker);
 
         return projectUniqNo;
 
@@ -163,7 +187,7 @@ public class UserService {
 
     public void quitProject(String userAccount, String projectUniqNo) {
         int i = userProjectRefDao.invalidByUserAccountAndProjectUniqNo(userAccount, projectUniqNo);
-        if(i <=0) {
+        if (i <= 0) {
             throw new ProjectException("取消project失败");
         }
     }

@@ -16,7 +16,7 @@ public class UniqueKeyUtil {
     private static HashFunction hashFunction = Hashing.murmur3_32();
 
     public static String generateTaskNo(String projectNo, String actionNo, int index) {
-        String time = DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS");
+        String time = DateFormatUtils.format(new Date(), "yyMMddHHmmssSSS");
         String hashcode = hashFunction.newHasher().putString(projectNo, Charsets.UTF_8)
                 .putString(actionNo, Charsets.UTF_8).hash().toString();
         return time + hashcode + Strings.padStart(String.valueOf(index), 3, '0');

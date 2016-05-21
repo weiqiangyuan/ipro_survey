@@ -28,6 +28,13 @@ public class ProjectManageController {
     @Resource
     private HealthProjectService healthProjectService;
 
+    /**
+     * 列出所有的Project
+     * 
+     * @param projectName
+     * @param projectNo
+     * @return
+     */
     @RequestMapping(value = { "/list" })
     @ResponseBody
     public JsonResult listProject(String projectName, String projectNo) {
@@ -79,7 +86,7 @@ public class ProjectManageController {
         }
     }
 
-    @RequestMapping(value = { "/projectDetail"})
+    @RequestMapping(value = { "/projectDetail" })
     @ResponseBody
     public JsonResult projectDetail(String projectNo) {
 
