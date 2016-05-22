@@ -41,6 +41,13 @@
         WHERE user_account = #{userAccount}
     </select>
 
+    <select id="selectByUserAccountAndStatus" resultType="com.ipro.survey.persistence.model.UserProjectRef">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_user_project_ref
+        WHERE user_account = #{userAccount} and status=#{status}
+    </select>
+
     <select id="selectValidTaskByAccountAndProjectNo" resultType="com.ipro.survey.persistence.model.UserProjectRef">
         SELECT
         <include refid="columns"/>

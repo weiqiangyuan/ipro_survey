@@ -11,6 +11,11 @@ import java.util.Date;
 public class NotifyMessage {
     //给谁推
     private String userAccount;
+
+    private String projectUniqNo;
+
+    private Integer scheduleCount;
+
     //消息标题
     private String msgTitle;
     //消息内容
@@ -33,6 +38,23 @@ public class NotifyMessage {
 
     public String getMsgTitle() {
         return msgTitle;
+    }
+
+
+    public String getProjectUniqNo() {
+        return projectUniqNo;
+    }
+
+    public void setProjectUniqNo(String projectUniqNo) {
+        this.projectUniqNo = projectUniqNo;
+    }
+
+    public Integer getScheduleCount() {
+        return scheduleCount;
+    }
+
+    public void setScheduleCount(Integer scheduleCount) {
+        this.scheduleCount = scheduleCount;
     }
 
     public void setMsgTitle(String msgTitle) {

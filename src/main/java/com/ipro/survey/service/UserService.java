@@ -1,5 +1,6 @@
 package com.ipro.survey.service;
 
+import com.google.common.collect.Maps;
 import com.ipro.survey.Enum.TaskStatus;
 import com.ipro.survey.Enum.UserType;
 import com.ipro.survey.exception.ProjectException;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -151,7 +153,7 @@ public class UserService {
     }
 
     @Transactional
-    public String participateProject(String userAccount, String projectNo) {
+    public Map participateProject(String userAccount, String projectNo) {
         HealthProject healthProject = healthProjectDao.selectByProjectNo(projectNo);
         if (healthProject == null) {
             throw new UserException("该项目不存在");
@@ -181,7 +183,10 @@ public class UserService {
 
         executorService.submit(notifyMessageWorker);
 
-        return projectUniqNo;
+        Map retMap = Maps.newHashMap();
+        retMap.put("projectUniqNo", projectUniqNo);
+        retMap.put("projectName", healthProject.getProjectName());
+        return retMap;
 
     }
 

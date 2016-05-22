@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.ipro.survey.Enum.ActionType;
+import com.ipro.survey.Enum.ProjectStatus;
 import com.ipro.survey.Enum.ScheduleTimeLevel;
 import com.ipro.survey.Enum.TaskStatus;
 import com.ipro.survey.exception.TaskException;
@@ -21,6 +22,7 @@ import com.ipro.survey.utils.UniqueKeyUtil;
 import com.ipro.survey.web.vo.task.TaskItemVO;
 import com.ipro.survey.web.vo.task.UserAllTaskListVO;
 import com.ipro.survey.web.vo.task.UserTaskListVO;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,11 +88,11 @@ public class ProjectTaskService {
     }
 
     /**
-     * 获取用户当前推送消息维度的任务列表
+     * 获取用户某一次推送消息维度的任务列表
      * 
-     * @param userAccount
-     * @param projectUniqNo
-     * @param scheduleCount
+     * @param userAccount 用户账户
+     * @param projectUniqNo 用户参加的project的唯一标识
+     * @param scheduleCount 第N次推送
      * @return
      */
     public UserTaskListVO getUserTaskList(String projectUniqNo, String userAccount, Integer scheduleCount) {
@@ -111,6 +113,39 @@ public class ProjectTaskService {
         return userTaskListVO;
     }
 
+    /**
+     * 获取用户当前推送消息维度的任务列表
+     *
+     * @param userAccount 用户账户
+     * @return
+     */
+    public UserTaskListVO getUserLatestTaskList(String userAccount) {
+
+        List<UserProjectRef> userProjectRefs = userProjectRefDao.selectByUserAccountAndStatus(userAccount,
+                ProjectStatus.IN.getCode());
+        UserProjectRef userProjectRef = userProjectRefs.get(0);
+
+        logger.info("当前用户参加的项目={} {}", userAccount, userProjectRef);
+        List<ProjectTask> projectTasks = projectTaskDao.selectUserTaskByStatus(userProjectRef.getProjectUniqNo(),
+                userAccount, TaskStatus.SEND.code);
+
+        if (CollectionUtils.isEmpty(projectTasks)) {
+            return null;
+        }
+
+        ProjectTask newestTask = projectTasks.get(0);
+        logger.info("newestTask={}", newestTask);
+
+        return getUserTaskList(userProjectRef.getProjectUniqNo(), userAccount, newestTask.getScheduleCount());
+    }
+
+    /**
+     * 获取用户当前所有的任务列表
+     * 
+     * @param projectUniqNo
+     * @param userAccount
+     * @return
+     */
     public UserAllTaskListVO getUserAllTaskList(String projectUniqNo, String userAccount) {
         logger.info("userAllTaskList projectUniqNo= {} userAccount= {}", projectUniqNo, userAccount);
         List<ProjectTask> projectTasks = projectTaskDao.selectUserAllTask(projectUniqNo, userAccount);
@@ -128,6 +163,22 @@ public class ProjectTaskService {
         userTaskListVO.setListCount(taskItemVOList);
         userTaskListVO.setPushCount(pushCount.size());
         return userTaskListVO;
+    }
+
+    /**
+     * 用户提交任务完成
+     *
+     * @param
+     */
+    public void markMessageSend(String projectUniqNo, String userAccounr, Integer scheduleCount) {
+        if (projectUniqNo != null && userAccounr != null && scheduleCount != null) {
+            List<ProjectTask> projectTasks = projectTaskDao.selectUserCurrentTask(projectUniqNo, userAccounr,
+                    scheduleCount);
+            for (ProjectTask projectTask : projectTasks) {
+                int ret = projectTaskDao.updateProjectTask(projectTask.getTaskNo(), TaskStatus.SEND.code);
+                logger.info("update task {} {} ret {}", projectTask.getTaskNo(), ret);
+            }
+        }
     }
 
     /**

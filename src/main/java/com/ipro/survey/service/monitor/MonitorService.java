@@ -28,6 +28,11 @@ public class MonitorService {
     @Resource
     private SurveyPaperDao surveyPaperDao;
 
+    /**
+     * 统计项目、用户、试卷的数量
+     * 
+     * @return
+     */
     public Map countAllResult() {
         int userCount = userDao.countUserByCondition(null);
 
@@ -43,7 +48,11 @@ public class MonitorService {
 
         logger.info("countAllResult={}", retMap);
         return retMap;
-
     }
 
+    public Map mointorProject(String projectNo) {
+        Map retMap = Maps.newHashMap();
+        return retMap;
+
+    }
 }

@@ -18,6 +18,9 @@ public interface UserProjectRefDao {
 
     List<UserProjectRef> selectByUserAccount(@Param("userAccount") String userAccount);
 
+    List<UserProjectRef> selectByUserAccountAndStatus(@Param("userAccount") String userAccount,
+            @Param("status") Integer status);
+
     List<UserProjectRef> selectValidTaskByAccountAndProjectNo(@Param("userAccount") String userAccount,
             @Param("projectNo") String projectNo);
 

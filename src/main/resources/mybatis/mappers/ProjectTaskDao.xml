@@ -29,6 +29,14 @@
         WHERE project_uniq_no = #{projectUniqNo} and schedule_count = #{scheduleCount} and user_account = #{userAccount}
     </select>
 
+    <select id="selectUserTaskByStatus" resultType="com.ipro.survey.persistence.model.ProjectTask">
+        SELECT
+        <include refid="columns"/>
+        FROM tb_project_task
+        WHERE project_uniq_no = #{projectUniqNo} and user_account = #{userAccount} and status = #{status} order by
+        notify_time desc;
+    </select>
+
     <select id="selectUserAllTask" resultType="com.ipro.survey.persistence.model.ProjectTask">
         SELECT
         <include refid="columns"/>

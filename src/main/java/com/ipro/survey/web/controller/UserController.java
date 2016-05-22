@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * Created by weiqiang.yuan on 15/12/5 15:37.
@@ -67,8 +68,10 @@ public class UserController {
 
         try {
             logger.info("participateProject param = {} {}", account, projectNo);
-            String projectUniqNo = userService.participateProject(account, projectNo);
-            return JsonResult.successJsonResult(projectUniqNo);
+            Map ret = userService.participateProject(account, projectNo);
+            JsonResult jsonResult = JsonResult.successJsonResult(ret);
+            logger.info("participate result={}", jsonResult);
+            return jsonResult;
         } catch (ProjectException e) {
             logger.error("用户参加project发生异常", e);
             return JsonResult.failureJsonResult(e.getMessage());
