@@ -11,6 +11,7 @@ import com.ipro.survey.web.vo.PaperListVO;
 import com.ipro.survey.web.vo.Question;
 import com.ipro.survey.web.vo.action.ActionVO;
 import com.ipro.survey.web.vo.project.HealthProjectItemVO;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.List;
 
@@ -62,8 +63,9 @@ public class TransformModel {
             HealthProjectItemVO healthProjectVO = new HealthProjectItemVO();
             healthProjectVO.setProjectNo(healthProject.getProjectNo());
             healthProjectVO.setProjectName(healthProject.getProjectName());
-            healthProjectVO.setCreateTime(healthProject.getCreateTime());
-            healthProjectVO.setUpdateTime(healthProject.getUpdateTime());
+            healthProjectVO.setCreateTime(DateFormatUtils.format(healthProject.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
+            healthProjectVO.setUpdateTime(DateFormatUtils.format(healthProject.getUpdateTime(),"yyyy-MM-dd HH:mm:ss"));
+            healthProjectVO.setProjectDesc(healthProject.getProjectDesc());
             return healthProjectVO;
         }
     };

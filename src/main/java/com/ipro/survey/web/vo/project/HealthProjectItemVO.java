@@ -12,8 +12,18 @@ public class HealthProjectItemVO {
 
     private String projectNo;
     private String projectName;
-    private Date createTime;
-    private Date updateTime;
+    private String projectDesc;
+    private String createTime;
+    private String updateTime;
+
+
+    public String getProjectDesc() {
+        return projectDesc;
+    }
+
+    public void setProjectDesc(String projectDesc) {
+        this.projectDesc = projectDesc;
+    }
 
     public String getProjectNo() {
         return projectNo;
@@ -31,19 +41,19 @@ public class HealthProjectItemVO {
         this.projectName = projectName;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

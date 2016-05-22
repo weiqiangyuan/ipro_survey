@@ -27,7 +27,7 @@ public class MessageGenerateService {
     @Resource
     private NotifyMsgProducerService notifyMsgProducerService;
 
-    private String titleTemplate = "这第%s波需要完成的任务~";
+    private String titleTemplate = "Task %s Remainder";
     private String redirectTemplate = "http://www.cpzero.cn/schedule?userAccount=%s&projectUniqNo=%s&scheduleCount=%s";
 
     public void generateNotifyMessage(String projectUniqNo, String userAccount) {
@@ -40,14 +40,13 @@ public class MessageGenerateService {
                 notifyMessage.setNotifyTime(projectTask.getNotifyTime());
                 notifyMessage.setMsgTitle(String.format(titleTemplate, projectTask.getScheduleCount()));
                 notifyMessage.setMsgDueTime(DateUtils.addHours(projectTask.getNotifyTime(), 2));
-                notifyMessage.setMsgContent("今天是个重要的日子，你有一些事情需要完成，请点击详情查看。");
+                notifyMessage.setMsgContent("Please click the details to do your own tasks");
                 notifyMessage.setRemark("");
                 notifyMessage.setRedirectUrl(
                         String.format(redirectTemplate, userAccount, projectUniqNo, projectTask.getScheduleCount()));
                 scheduleCountSet.add(projectTask.getScheduleCount());
                 notifyMsgProducerService.sendNotifyMsg(notifyMessage);
             }
-            // }
         }
     }
 }

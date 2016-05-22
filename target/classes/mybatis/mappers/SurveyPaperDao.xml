@@ -73,4 +73,14 @@
         </if>
     </select>
 
+    <select id="countPaperByCondition" parameterType="com.ipro.survey.persistence.model.project.HealthProject"
+            resultType="integer">
+        SELECT
+        COUNT(*)
+        FROM tb_survey_paper
+        <if test="project != null">
+            -- WHERE project=#{account}
+        </if>
+    </select>
+
 </mapper>

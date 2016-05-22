@@ -69,4 +69,13 @@
         limit 500;
     </select>
 
+    <select id="countProjectByCondition" parameterType="com.ipro.survey.persistence.model.project.HealthProject"
+            resultType="integer">
+        SELECT
+        COUNT(*)
+        FROM tb_health_project
+        <if test="project != null">
+            -- WHERE project=#{account}
+        </if>
+    </select>
 </mapper>

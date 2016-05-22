@@ -46,4 +46,10 @@ public interface SurveyPaperDao {
      * @return
      */
     int updatePaper(SurveyPaper surveyPaper);
+
+    /**
+     * 根据条件查询问卷数量
+     * @param surveyPaper
+     */
+    int countPaperByCondition(SurveyPaper surveyPaper);
 }

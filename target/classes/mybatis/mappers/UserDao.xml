@@ -17,6 +17,15 @@
         WHERE account = #{account}
     </select>
 
+    <select id="countUserByCondition" parameterType="com.ipro.survey.persistence.model.User" resultType="integer">
+        SELECT
+        COUNT(*)
+        FROM tb_user
+        <if test="user != null">
+            WHERE account=#{account}
+        </if>
+    </select>
+
     <insert id="insertUser" parameterType="com.ipro.survey.persistence.model.User">
         INSERT INTO tb_user(
         account,

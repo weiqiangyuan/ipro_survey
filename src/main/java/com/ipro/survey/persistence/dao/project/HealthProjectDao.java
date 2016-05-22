@@ -20,4 +20,12 @@ public interface HealthProjectDao {
 
     int updateProject(HealthProject healthProject);
 
+    /**
+     * 根据条件查询项目数量
+     * 
+     * @param healthProject
+     * @return
+     */
+    int countProjectByCondition(HealthProject healthProject);
+
 }

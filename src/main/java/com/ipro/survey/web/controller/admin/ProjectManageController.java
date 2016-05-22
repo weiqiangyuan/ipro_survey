@@ -42,6 +42,7 @@ public class ProjectManageController {
         try {
             logger.info("listProject param {} {}", projectName, projectNo);
             List<HealthProjectItemVO> projectList = healthProjectService.getHealthProjectList("", "");
+            logger.info("listProject result={}", projectName, projectNo);
             return JsonResult.successJsonResult(projectList);
         } catch (PaperManageException e) {
             logger.error("读取项目列表发生异常", e);

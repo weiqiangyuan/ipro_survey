@@ -1,12 +1,8 @@
 package com.ipro.survey.persistence.dao;
 
-import java.util.List;
-
 import com.ipro.survey.persistence.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import com.ipro.survey.persistence.model.SurveyQuestion;
 
 /**
  * @Author weiqiang.yuan
@@ -29,5 +25,12 @@ public interface UserDao {
      */
     int insertUser(User user);
 
+    /**
+     * 根据条件查询用户数量
+     * 
+     * @param user
+     * @return
+     */
+    int countUserByCondition(@Param("user") User user);
 
 }
