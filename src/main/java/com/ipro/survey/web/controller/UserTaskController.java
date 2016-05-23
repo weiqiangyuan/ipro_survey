@@ -1,11 +1,13 @@
 package com.ipro.survey.web.controller;
 
+import com.google.common.collect.Maps;
 import com.ipro.survey.exception.PaperManageException;
 import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.service.ProjectTaskService;
 import com.ipro.survey.service.message.MessageGenerateService;
 import com.ipro.survey.service.message.MessageSender;
 import com.ipro.survey.service.message.mq.NotifyMsgProducerService;
+import com.ipro.survey.utils.HttpUtil;
 import com.ipro.survey.web.vo.JsonResult;
 import com.ipro.survey.web.vo.task.UserAllTaskListVO;
 import com.ipro.survey.web.vo.task.UserTaskListVO;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * Created by weiqiang.yuan on 15/12/13 01:08.
@@ -47,7 +50,7 @@ public class UserTaskController {
                     userLatestTaskList.getScheduleCount(), userLatestTaskList.getProjectUniqNo(),
                     userLatestTaskList.getUserAccount());
 
-            notifyMessage.setMsgContent("This is your current Tasks!!");
+            notifyMessage.setMsgContent("This is your current tasks!!");
             weChatMesseage.send(notifyMessage);
 
             // Map param = Maps.newHashMap();
@@ -61,9 +64,23 @@ public class UserTaskController {
 
             return JsonResult.successJsonResult();
         } catch (PaperManageException e) {
+
+            Map param = Maps.newHashMap();
+            param.put("msgTitle", "You don't have current tasks. ");
+            param.put("msgContent", "You don't have current tasks. Please come to home page to chose one project");
+            param.put("remark", "");
+            HttpUtil.doPost("http://123.56.227.132:3000/template/" + userAccount, null, param);
+
             logger.error("创建用户任务发生异常", e);
             return JsonResult.failureJsonResult("创建用户任务发生异常");
         } catch (Throwable e) {
+
+            Map param = Maps.newHashMap();
+            param.put("msgTitle", "You don't have current tasks. ");
+            param.put("msgContent", "You don't have current tasks. Please come to home page to chose one project");
+            param.put("remark", "");
+            HttpUtil.doPost("http://123.56.227.132:3000/template/" + userAccount, null, param);
+
             logger.error("创建用户任务发生未知异常", e);
             return JsonResult.failureJsonResult("创建用户任务发生未知异常");
         }

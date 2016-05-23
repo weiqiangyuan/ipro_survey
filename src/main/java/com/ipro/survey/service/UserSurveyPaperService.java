@@ -46,6 +46,7 @@ public class UserSurveyPaperService {
         userPaperVO.setProjectNo(projectNo);
         userPaperVO.setCreateTime(surveyPaper.getCreateTime());
         userPaperVO.setTaskNo(taskNo);
+        userPaperVO.setScheduleCount(projectTask.getScheduleCount());
         return userPaperVO;
     }
 

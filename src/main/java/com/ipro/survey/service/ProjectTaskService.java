@@ -123,15 +123,15 @@ public class ProjectTaskService {
 
         List<UserProjectRef> userProjectRefs = userProjectRefDao.selectByUserAccountAndStatus(userAccount,
                 ProjectStatus.IN.getCode());
+        Preconditions.checkNotNull(userProjectRefs);
+
         UserProjectRef userProjectRef = userProjectRefs.get(0);
 
         logger.info("当前用户参加的项目={} {}", userAccount, userProjectRef);
         List<ProjectTask> projectTasks = projectTaskDao.selectUserTaskByStatus(userProjectRef.getProjectUniqNo(),
                 userAccount, TaskStatus.SEND.code);
 
-        if (CollectionUtils.isEmpty(projectTasks)) {
-            return null;
-        }
+        Preconditions.checkNotNull(projectTasks);
 
         ProjectTask newestTask = projectTasks.get(0);
         logger.info("newestTask={}", newestTask);

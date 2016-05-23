@@ -18,6 +18,7 @@ public class UserPaperVO {
     private String projectNo;
     private String userAccount;
     private String taskNo;
+    private Integer scheduleCount;
     private List<Question> questionList;
 
     public String getPaperTitle() {
@@ -82,6 +83,15 @@ public class UserPaperVO {
 
     public void setTaskNo(String taskNo) {
         this.taskNo = taskNo;
+    }
+
+
+    public Integer getScheduleCount() {
+        return scheduleCount;
+    }
+
+    public void setScheduleCount(Integer scheduleCount) {
+        this.scheduleCount = scheduleCount;
     }
 
     @Override
