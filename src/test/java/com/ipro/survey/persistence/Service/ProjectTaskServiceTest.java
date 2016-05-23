@@ -6,8 +6,8 @@ import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.service.ProjectTaskService;
 import com.ipro.survey.service.message.MessageSender;
 import com.ipro.survey.service.message.mq.NotifyMsgProducerService;
+import com.ipro.survey.service.monitor.MonitorService;
 import com.ipro.survey.utils.HttpUtil;
-import com.ipro.survey.web.vo.task.UserTaskListVO;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Test;
 
@@ -29,6 +29,9 @@ public class ProjectTaskServiceTest extends BaseServiceTest {
     @Resource
     private NotifyMsgProducerService notifyMsgProducerService;
 
+    @Resource
+    private MonitorService monitorService;
+
     @Test
     public void should_create_task() {
         projectTaskService.createUserTaskList("123$1", "userAccount11");
@@ -36,8 +39,9 @@ public class ProjectTaskServiceTest extends BaseServiceTest {
 
     @Test
     public void should_get_user_current_list() {
-//        UserTaskListVO userAccount11 = projectTaskService.getUserAllTaskList("123$1", "oewo7wPJosZXZMem-JzRsvGKU7Sk");
-//        logger.info("=={}", userAccount11);
+        // UserTaskListVO userAccount11 = projectTaskService.getUserAllTaskList("123$1",
+        // "oewo7wPJosZXZMem-JzRsvGKU7Sk");
+        // logger.info("=={}", userAccount11);
     }
 
     @Test
@@ -79,7 +83,16 @@ public class ProjectTaskServiceTest extends BaseServiceTest {
 
         notifyMsgProducerService.sendNotifyMsg(notifyMessage);
         // notifyMessage.
-//         weChatMesseage.send(notifyMessage);
+        // weChatMesseage.send(notifyMessage);
+    }
+
+    @Test
+    public void should_get_task_count() {
+        Map map = monitorService.getUserTaskStatusInProject("123");
+
+//        logger.info("map={}",map);
+        System.out.println(1);
+
     }
 
     public static void main(String[] args) {

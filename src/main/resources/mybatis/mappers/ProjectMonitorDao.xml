@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ipro.survey.persistence.dao.monitor.ProjectMonitorDao">
+
+    <!--<sql id="columns">-->
+    <!--id,-->
+    <!--account,-->
+    <!--nick_name as nickName,-->
+    <!--status,-->
+    <!--type-->
+    <!--</sql>-->
+
+
+    <select id="selectTaskCountByCondition" resultType="com.ipro.survey.pojo.monitor.ProjectMonitorResult">
+
+        SELECT user_account as userAccount, count(*) as countValue
+        FROM tb_project_task
+        where project_uniq_no LIKE #{projectNo}"%"
+        <if test="status !=null">
+            and status=#{status}
+        </if>
+        GROUP BY user_account
+
+    </select>
+
+</mapper>

@@ -46,5 +46,21 @@ public class MonitorController {
         }
     }
 
+    @RequestMapping(value = { "/getAllUserStatusByProjectNo" })
+    @ResponseBody
+    public JsonResult getAllUserStatusByProjectNo(String projectNo) {
+
+        try {
+            logger.info("getAllUserStatusByProjectNo param {}", projectNo);
+            Map map = monitorService.getUserTaskStatusInProject(projectNo);
+            return JsonResult.successJsonResult(map);
+        } catch (PaperManageException e) {
+            logger.error("读取任务列表发生异常", e);
+            return JsonResult.failureJsonResult("读取任务列表发生异常");
+        } catch (Throwable e) {
+            logger.error("读取任务列表发生未知异常", e);
+            return JsonResult.failureJsonResult("读取任务列表发生未知异常");
+        }
+    }
 
 }

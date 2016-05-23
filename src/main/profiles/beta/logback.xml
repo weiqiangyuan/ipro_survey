@@ -54,7 +54,7 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
+    <root level="debug">
         <appender-ref ref="survey"/>
         <appender-ref ref="survey_error"/>
         <appender-ref ref="console"/>
