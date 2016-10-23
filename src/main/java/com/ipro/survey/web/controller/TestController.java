@@ -36,6 +36,12 @@ public class TestController {
     @Resource
     private UserProjectRefDao userProjectRefDao;
 
+    @RequestMapping(value = { "/run" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public JsonResult run() {
+        return JsonResult.successJsonResult("it workds");
+
+    }
     @RequestMapping(value = { "/msg" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public JsonResult createUser() {

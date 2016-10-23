@@ -12,6 +12,7 @@ public class UserProjectMonitorResult {
     private Integer doneTaskNumber;
     private String userName;
     private double progress;
+    private String participateTime;
 
     public String getUserAccount() {
         return userAccount;
@@ -51,6 +52,14 @@ public class UserProjectMonitorResult {
 
     public void setProgress(double progress) {
         this.progress = progress;
+    }
+
+    public String getParticipateTime() {
+        return participateTime;
+    }
+
+    public void setParticipateTime(String participateTime) {
+        this.participateTime = participateTime;
     }
 
     @Override

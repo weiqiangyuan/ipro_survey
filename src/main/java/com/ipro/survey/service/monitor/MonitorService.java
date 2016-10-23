@@ -1,21 +1,27 @@
 package com.ipro.survey.service.monitor;
 
 import com.google.common.collect.Maps;
+import com.ipro.survey.Enum.ProjectStatus;
 import com.ipro.survey.Enum.TaskStatus;
 import com.ipro.survey.persistence.dao.SurveyPaperDao;
 import com.ipro.survey.persistence.dao.UserDao;
+import com.ipro.survey.persistence.dao.UserProjectRefDao;
 import com.ipro.survey.persistence.dao.monitor.ProjectMonitorDao;
 import com.ipro.survey.persistence.dao.monitor.ProjectMonitorDaoImpl;
 import com.ipro.survey.persistence.dao.project.HealthProjectDao;
 import com.ipro.survey.persistence.model.User;
+import com.ipro.survey.persistence.model.UserProjectRef;
 import com.ipro.survey.pojo.monitor.ProjectMonitorParam;
 import com.ipro.survey.pojo.monitor.ProjectMonitorResult;
 import com.ipro.survey.pojo.monitor.UserProjectMonitorResult;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +44,9 @@ public class MonitorService {
 
     @Resource
     private ProjectMonitorDaoImpl projectMonitorDaoImpl;
+
+    @Resource
+    private UserProjectRefDao userProjectRefDao;
 
     /**
      * 统计项目、用户、试卷的数量
@@ -85,8 +94,6 @@ public class MonitorService {
                     Double allValueCount = Double.valueOf(value.getCountValue());
                     progress = doneValueCount / allValueCount;
                 }
-                // value.setProgress(progress);
-                // value.setUserName(user.getNickName());
 
                 UserProjectMonitorResult result = new UserProjectMonitorResult();
                 result.setUserName(user.getNickName());
@@ -94,6 +101,13 @@ public class MonitorService {
                 result.setProgress(progress);
                 result.setAllTaskNumber(value.getCountValue());
                 result.setDoneTaskNumber(doneValue == null ? 0 : doneValue.getCountValue());
+
+                List<UserProjectRef> userProjectRefs = userProjectRefDao.selectByUserAccountAndStatus(userAccount,
+                        ProjectStatus.IN.getCode());
+                if (CollectionUtils.isNotEmpty(userProjectRefs)) {
+                    result.setParticipateTime(
+                            DateFormatUtils.format(userProjectRefs.get(0).getCreateTime(), "yyyy/MM/dd HH:mm"));
+                }
 
                 finalResult.put(userAccount, result);
             } catch (Exception e) {

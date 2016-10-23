@@ -25,10 +25,6 @@ public class JsonResult<T> implements Serializable {
 	 */
 	private Integer errcode;
 	/**
-	 * 版本
-	 */
-	private Integer ver;
-	/**
 	 * 数据
 	 */
 	private T data;
@@ -55,12 +51,20 @@ public class JsonResult<T> implements Serializable {
 		return jsonResult;
     }
 
-    public static <T> JsonResult failureJsonResult(String errmsg) {
+    public static <T> JsonResult failureJsonResult(String errmsg, Integer errcode) {
         JsonResult jsonResult = new JsonResult();
         jsonResult.setErrmsg(errmsg);
+        jsonResult.setErrcode(errcode);
         jsonResult.setRet(Boolean.FALSE);
         return jsonResult;
     }
+
+	public static <T> JsonResult failureJsonResult(String errmsg ) {
+		JsonResult jsonResult = new JsonResult();
+		jsonResult.setErrmsg(errmsg);
+		jsonResult.setRet(Boolean.FALSE);
+		return jsonResult;
+	}
 
 	public JsonResult(Boolean ret, String errmsg, T data) {
 		super();
@@ -68,17 +72,6 @@ public class JsonResult<T> implements Serializable {
 		this.errmsg = errmsg;
 		this.data = data;
 	}
-
-	public JsonResult(Boolean ret, String errmsg, Integer errcode,
-			Integer ver, T data) {
-		super();
-		this.ret = ret;
-		this.errmsg = errmsg;
-		this.errcode = errcode;
-		this.ver = ver;
-		this.data = data;
-	}
-
 	public Boolean getRet() {
 		return ret;
 	}
@@ -103,13 +96,7 @@ public class JsonResult<T> implements Serializable {
 		this.errcode = errcode;
 	}
 
-	public Integer getVer() {
-		return ver;
-	}
 
-	public void setVer(Integer ver) {
-		this.ver = ver;
-	}
 
 	public T getData() {
 		return data;
@@ -129,6 +116,6 @@ public class JsonResult<T> implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

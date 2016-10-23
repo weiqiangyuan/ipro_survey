@@ -30,7 +30,7 @@ public class WeChatMesseage implements MessageSender {
         param.put("msgDueTime", DateFormatUtils.format(notifyMessage.getMsgDueTime(), "yyyy/MM/dd HH:mm"));
         param.put("remark", notifyMessage.getRemark());
         param.put("redirectUrl", notifyMessage.getRedirectUrl());
-        String postUrl = "http://123.56.227.132:3000/template/" + notifyMessage.getUserAccount();
+        String postUrl = "http://23.106.156.140:3001/template/" + notifyMessage.getUserAccount();
         logger.info("send wechat msg postUrl = {} param={}", postUrl, param);
         HttpUtil.doPost(postUrl, null, param);
     }

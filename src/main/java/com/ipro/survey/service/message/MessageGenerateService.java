@@ -1,7 +1,9 @@
 package com.ipro.survey.service.message;
 
 import com.google.common.collect.Sets;
+import com.ipro.survey.persistence.dao.ActionDao;
 import com.ipro.survey.persistence.dao.ProjectTaskDao;
+import com.ipro.survey.persistence.model.Action;
 import com.ipro.survey.persistence.model.ProjectTask;
 import com.ipro.survey.pojo.NotifyMessage;
 import com.ipro.survey.service.message.mq.NotifyMsgProducerService;
@@ -27,8 +29,10 @@ public class MessageGenerateService {
     private ProjectTaskDao projectTaskDao;
     @Resource
     private NotifyMsgProducerService notifyMsgProducerService;
+    @Resource
+    private ActionDao actionDao;
 
-    public static String titleTemplate = "Task %s Remainder";
+    public static String titleTemplate = "Visit %s tasks";
     public static String redirectTemplate = "http://www.cpzero.cn/schedule?userAccount=%s&projectUniqNo=%s&scheduleCount=%s";
 
     public void generateNotifyMessage(String projectUniqNo, String userAccount) {
@@ -45,7 +49,8 @@ public class MessageGenerateService {
                 notifyMessage.setNotifyTime(projectTask.getNotifyTime());
                 notifyMessage.setMsgTitle(String.format(titleTemplate, projectTask.getScheduleCount()));
                 notifyMessage.setMsgDueTime(DateUtils.addHours(projectTask.getNotifyTime(), 2));
-                notifyMessage.setMsgContent("Please click the details to do your own tasks");
+                Action action = actionDao.selectByActionNo(projectTask.getActionNo());
+                notifyMessage.setMsgContent(action.getActionName()+". Please click the details to do your own tasks");
                 notifyMessage.setRemark("");
                 notifyMessage.setRedirectUrl(
                         String.format(redirectTemplate, userAccount, projectUniqNo, projectTask.getScheduleCount()));

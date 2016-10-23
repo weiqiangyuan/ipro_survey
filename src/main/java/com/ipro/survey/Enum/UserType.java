@@ -5,7 +5,7 @@ package com.ipro.survey.Enum;
  */
 public enum UserType {
 
-    WECHAT(1, "微信");
+    ADMIN(0, "管理员"), WECHAT(1, "微信");
 
     public final int code;
     public final String name;

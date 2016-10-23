@@ -69,7 +69,7 @@ public class UserTaskController {
             param.put("msgTitle", "You don't have current tasks. ");
             param.put("msgContent", "You don't have current tasks. Please come to home page to chose one project");
             param.put("remark", "");
-            HttpUtil.doPost("http://123.56.227.132:3000/template/" + userAccount, null, param);
+            HttpUtil.doPost("http://23.106.156.140:3001/template/" + userAccount, null, param);
 
             logger.error("创建用户任务发生异常", e);
             return JsonResult.failureJsonResult("创建用户任务发生异常");
@@ -79,7 +79,7 @@ public class UserTaskController {
             param.put("msgTitle", "You don't have current tasks. ");
             param.put("msgContent", "You don't have current tasks. Please come to home page to chose one project");
             param.put("remark", "");
-            HttpUtil.doPost("http://123.56.227.132:3000/template/" + userAccount, null, param);
+            HttpUtil.doPost("http://23.106.156.140:3001/template/" + userAccount, null, param);
 
             logger.error("创建用户任务发生未知异常", e);
             return JsonResult.failureJsonResult("创建用户任务发生未知异常");
