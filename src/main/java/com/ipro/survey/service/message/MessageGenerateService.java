@@ -32,7 +32,7 @@ public class MessageGenerateService {
     @Resource
     private ActionDao actionDao;
 
-    public static String titleTemplate = "Visit %s tasks";
+    public static String titleTemplate = "Week %s tasks";
     public static String redirectTemplate = "http://www.cpzero.cn/schedule?userAccount=%s&projectUniqNo=%s&scheduleCount=%s";
 
     public void generateNotifyMessage(String projectUniqNo, String userAccount) {
@@ -49,8 +49,8 @@ public class MessageGenerateService {
                 notifyMessage.setNotifyTime(projectTask.getNotifyTime());
                 notifyMessage.setMsgTitle(String.format(titleTemplate, projectTask.getScheduleCount()));
                 notifyMessage.setMsgDueTime(DateUtils.addHours(projectTask.getNotifyTime(), 2));
-                Action action = actionDao.selectByActionNo(projectTask.getActionNo());
-                notifyMessage.setMsgContent(action.getActionName()+". Please click the details to do your own tasks");
+//                Action action = actionDao.selectByActionNo(projectTask.getActionNo());
+                notifyMessage.setMsgContent("Please click the details to do your own tasks");
                 notifyMessage.setRemark("");
                 notifyMessage.setRedirectUrl(
                         String.format(redirectTemplate, userAccount, projectUniqNo, projectTask.getScheduleCount()));
